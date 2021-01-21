@@ -1,0 +1,23 @@
+/* .decription-header {
+	border: 5px;
+	padding: 10px;
+	height: 91vh;
+	margin-right: 3px;
+	box-shadow: -1px 1px 1px 2px #171616;
+} */
+
+.decription-header {
+	/* background-color: #171616 !important; */
+	color: black;
+	margin-left: 0.1cm;
+}
+.card-header {
+	background-color: #1e2021 !important;
+}
+.card {
+	background-color: #343a40 !important;
+}
+.card-body {
+	background-color: #e1ddf9;
+	height: max-content;
+}

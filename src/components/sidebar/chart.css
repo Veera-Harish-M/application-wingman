@@ -1,0 +1,65 @@
+/* .Usermsg {
+	margin-left: 30px;
+	margin-right: 5px;
+	background-color: blue;
+	padding-top: 0px;
+} */
+.boxs {
+	width: 240px;
+	margin: 20px 10px 20px 45px;
+	background: #579ffb;
+	padding: 5px;
+	color: rgb(0, 0, 0);
+	position: relative;
+	border-radius: 6px;
+}
+.box {
+	width: 240px;
+	margin: 20px 40px 20px 10px;
+	background: #dedede;
+	padding: 5px 5px 5px 10px;
+	/* font-weight: 900; */
+	color: rgb(0, 0, 0);
+	/* font-family: arial; */
+	position: relative;
+	border-radius: 6px;
+}
+.sent:before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	position: absolute;
+	border-left: 10px solid #579ffb;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #579ffb;
+	border-bottom: 10px solid transparent;
+	right: -10px;
+	top: 10px;
+}
+.received:before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	position: absolute;
+	border-left: 10px solid transparent;
+	border-right: 10px solid #dedede;
+	border-top: 10px solid #dedede;
+	border-bottom: 10px solid transparent;
+	left: -10px;
+	top: 10px;
+}
+.msgget {
+	margin: 5px 3px 5px 3px;
+	border-radius: 20px;
+	border-color: black;
+	width: 81%;
+	border: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	/* -webkit-transition: 0.5s;
+	transition: 0.5s; */
+	outline: none;
+}
+.msgget:focus {
+	border: 0px;
+}

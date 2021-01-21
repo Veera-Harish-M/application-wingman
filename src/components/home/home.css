@@ -1,0 +1,43 @@
+.home {
+	display: flex;
+	width: 100%;
+	overflow: hidden;
+}
+.sidebar {
+	background: #050505;
+	min-width: 300px;
+	max-width: 300px;
+	height: 91vh;
+	width: 100%;
+	/* color: white; */
+	box-sizing: border-box;
+	/* text-align: center; */
+	flex-grow: 2;
+}
+
+.ResizePanel-module_ResizeHandleHorizontal__PkS9u {
+	background: #171616;
+	color: white;
+	width: 8px;
+	margin-right: 3px;
+	height: 45px;
+	border: 1px solid #1e2021;
+}
+
+.content {
+	flex-grow: 3;
+	color: white;
+	background: #1e2021;
+}
+
+.description {
+	background: #1d1d1d;
+	color: white;
+	min-width: 200px;
+	max-width: 300px;
+	height: 91vh;
+	width: 100%;
+	box-sizing: border-box;
+	text-align: center;
+	flex-grow: 2;
+}

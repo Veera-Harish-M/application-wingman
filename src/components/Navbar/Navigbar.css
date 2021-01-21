@@ -1,0 +1,26 @@
+.dropdown-menu {
+	background-color: #343a40 !important;
+}
+.dropdown-toggle::after {
+	content: none;
+}
+
+.navbar-dark {
+	background-color: #1e2021 !important;
+	box-shadow: 1px 1px 1px 2px #171616;
+}
+.dropdown-item {
+	color: white !important;
+}
+.dropdown-divider {
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+}
+
+.navbar {
+	height: 9vh;
+}
+
+.dropdown-item:hover {
+	color: black !important;
+}
