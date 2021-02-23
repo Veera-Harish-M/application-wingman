@@ -15,20 +15,6 @@ export default function Navigbar() {
     "PHP",
   ];
   return (
-<<<<<<< HEAD
-    <Navbar collapseOnSelect expand="lg" className="navbar-dark" variant="dark">
-      <Navbar.Brand href="#home">INVOCO</Navbar.Brand>
-      <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link href="#features">File</Nav.Link>
-          <NavDropdown
-            title="Edit"
-            id="collasible-nav-dropdown"
-          >
-            <NavDropdown.Item href="#action/3.1">Cut</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.1">Copy</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Paste</NavDropdown.Item>
-=======
     <Navbar collapseOnSelect expand='lg' className='navbar-dark' variant='dark'>
       <Navbar.Brand href='#home'>INVOCO</Navbar.Brand>
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
@@ -39,7 +25,6 @@ export default function Navigbar() {
             <NavDropdown.Item href='#action/3.1'>Cut</NavDropdown.Item>
             <NavDropdown.Item href='#action/3.1'>Copy</NavDropdown.Item>
             <NavDropdown.Item href='#action/3.2'>Paste</NavDropdown.Item>
->>>>>>> ddbc538ca08223ca6ce56fe9816e2234ed1ae788
             <NavDropdown.Divider />
             <NavDropdown.Item href='#action/3.3'>Find</NavDropdown.Item>
             <NavDropdown.Item href='#action/3.3'>Find&Replace</NavDropdown.Item>
