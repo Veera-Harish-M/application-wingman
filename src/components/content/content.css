@@ -2,3 +2,7 @@ textarea:focus {
   outline: 0px;
   border: none;
 }
+
+.CodeMirror {
+  height: 91vh !important;
+}
