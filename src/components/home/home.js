@@ -2,7 +2,7 @@ import React from 'react';
 import ResizePanel from 'react-resize-panel';
 import Content from '../content/content';
 import Sidebar from '../sidebar/sidebar';
-//import Description from "../description/description";
+import Description from "../description/description";
 import './home.css';
 
 function home() {
@@ -18,11 +18,11 @@ function home() {
           <Content />
         </div>
 
-        {/* <ResizePanel direction="w" style={{flexGrow: '1'}}>
+        <ResizePanel direction="w" style={{flexGrow: '1'}}>
 	    <div className="description">
         	<Description />
         </div>
-        </ResizePanel> */}
+        </ResizePanel>
       </div>
     </div>
   );

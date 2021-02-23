@@ -17,14 +17,12 @@ export default function Navigbar() {
   return (
     <Navbar collapseOnSelect expand="lg" className="navbar-dark" variant="dark">
       <Navbar.Brand href="#home">INVOCO</Navbar.Brand>
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="#features">File</Nav.Link>
           <NavDropdown
             title="Edit"
             id="collasible-nav-dropdown"
-            //style={{}}
           >
             <NavDropdown.Item href="#action/3.1">Cut</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.1">Copy</NavDropdown.Item>

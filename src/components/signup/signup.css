@@ -1,0 +1,180 @@
+.signup {
+  background-image: url("../../asserts/signupbg.jpg");
+  background-position: "center";
+  background-size: "cover";
+  background-repeat: "no-repeat";
+  width: "100vw";
+  height: "100vh";
+  font: "sans-serif";
+}
+
+.signup .box {
+  height: 25rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 350px !important;
+  transform: translate(-50%, -50%);
+  display: block;
+  margin: 20px auto;
+  padding: 14px 10px;
+  text-align: center;
+  color: black;
+  background-color: black;
+  border-radius: 5px;
+  opacity: 80%;
+  background: linear-gradient(45deg, #ff0069, #000000);
+  box-shadow: 10px 10px 6px 0px rgb(0, 0, 0, 0.7);
+}
+
+.signup .box h1 {
+  color: white;
+  text-align: center;
+  font-size: 50px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  /* z-index: 1; */
+}
+
+.signup .box h3 {
+  color: "#333";
+  font-family: "Muli-SemiBold";
+  font-size: "25px";
+  letter-spacing: "3px";
+  text-align: "center";
+  margin-bottom: "33px";
+}
+
+.signup .box input[type="text"],
+.signup .box input[type="password"],
+.signup .box input[type="email"] {
+  width: 20rem;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 5px;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 30px;
+  padding: 10px;
+  outline: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.signup .box input[type="submit"] {
+  width: 10rem;
+  border: 2px solid rgb(0, 255, 224);
+  border-radius: 23px;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 10px;
+  /* margin-top: 5px; */
+  padding: 10px;
+  outline: none;
+  background: none;
+  color: white;
+  text-transform: uppercase;
+}
+
+.signup .box input[type="submit"]:hover {
+  background-color: transparent;
+  color: aqua;
+  transition: 0.2s;
+  box-shadow: 0px 0px 20px 3px rgb(0, 255, 224);
+}
+
+.signup .box input[type="submit"]:focus,
+.signup .box input[type="email"]:focus {
+  background-color: transparent;
+  color: aqua;
+  transition: 0.2s;
+  box-shadow: 0px 0px 20px 3px rgb(0, 255, 224);
+}
+
+.signup .box input[type="text"]:focus,
+.signup .box input[type="password"]:focus {
+  border: 2px solid rgb(0, 255, 224);
+  box-shadow: 0px 0px 20px 1px rgb(0, 255, 224);
+  transition: 0.2s;
+}
+
+@media screen and (max-width: 800px) {
+  .signup .box {
+    height: 20rem;
+    width: 15rem;
+  }
+  .signup .box input[type="text"],
+  .signup .box input[type="password"] {
+    width: 8rem;
+  }
+  .signup .box input[type="submit"] {
+    width: 6rem;
+    font-size: 0.61rem;
+  }
+  .signup .box h1 {
+    font-size: 1.5rem;
+  }
+  .signup .forgot {
+    font-size: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .signup .box {
+    height: 18rem;
+    width: 12rem;
+  }
+  .signup .box input[type="text"],
+  .signup .box input[type="password"] {
+    width: 6rem;
+    padding: 0.5rem;
+    font-size: 0.63rem;
+  }
+  .signup .box input[type="submit"] {
+    width: 5rem;
+    height: 2rem;
+    font-size: 0.51rem;
+  }
+  .signup .box h1 {
+    font-size: 1rem;
+  }
+  .signup .forgot {
+    font-size: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 200px) {
+  .signup .box {
+    height: 17rem;
+    width: 8rem;
+  }
+  .signup .box input[type="text"],
+  .signup .box input[type="password"] {
+    width: 3.8rem;
+    /* padding: 0.4rem; */
+    margin-top: 0.2rem;
+  }
+  .signup .box input[type="submit"] {
+    width: 3.6rem;
+    font-size: 0.29rem;
+  }
+  .signup .box h1 {
+    font-size: 1rem;
+  }
+  .signup .forgot {
+    font-size: 0.29rem;
+  }
+}
+
+.signup hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+}
