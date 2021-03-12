@@ -92,7 +92,7 @@ export default function Addalgorithm() {
                 When To Use<span style={{ color: "red" }}>*</span>
               </Card.Title>
               <Badge variant='light' className='mb-2 text-muted'>
-                Why Should You Use an Algorithm ?
+                Where will You Use this Algorithm ?
               </Badge>
 
               <Form.Group controlId='exampleForm.ControlTextarea1'>

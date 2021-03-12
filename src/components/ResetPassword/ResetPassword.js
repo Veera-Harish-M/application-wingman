@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Row, Col } from "react-bootstrap";
 import "./ResetPassword.css";
 
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
+import ResetImage from '../../asserts/reset.gif'
 export default class ResetPassword extends Component {
   constructor() {
     super();
@@ -10,7 +12,9 @@ export default class ResetPassword extends Component {
     this.state = {
       password: "",
       Confirmpassword: "",
-      message: "",
+      PositiveSnackBarOpen:false,
+      NegativeSnackBarOpen:false,
+      message:""
     };
   }
 
@@ -18,6 +22,21 @@ export default class ResetPassword extends Component {
     //assigning onchange form value to state
     this.setState({ [e.target.name]: e.target.value });
   }
+
+
+  handleNegativeSnackbarClose = () => {
+    this.setState({
+     NegativeSnackBarOpen:false,
+     message:""
+    })
+ };
+
+  handlePositiveSnackbarClose = () => {
+   this.setState({
+     PositiveSnackBarOpen:false,
+     message:""
+   })
+ };
 
   resetPassword(e) {
     e.preventDefault();
@@ -43,7 +62,8 @@ export default class ResetPassword extends Component {
         .then((res) => res.json())
         .catch((error) => {
           this.setState({
-            message: <h4>Something Went Wrong!</h4>,
+            message: "Something Went Wrong!",
+            NegativeSnackBarOpen:true
           });
           console.error("Error", error);
         })
@@ -51,16 +71,13 @@ export default class ResetPassword extends Component {
           if (response) {
             if (response.status === "Error") {
               this.setState({
-                message: <h4>{response.message}</h4>,
+                message: response.message,
+                NegativeSnackBarOpen:true
               });
             } else {
               this.setState({
-                message: (
-                  <div>
-                    <h4>Your Password has been Changed Successfully.</h4>
-                    <h5>SignIn for exciting deals! </h5>
-                  </div>
-                ),
+                message: "Your Password has been Changed Successfully.",
+                PositiveSnackBarOpen:true
               });
               console.log("Success:", response);
             }
@@ -68,24 +85,17 @@ export default class ResetPassword extends Component {
         });
     } else {
       this.setState({
-        message: <h4>Password Should Match</h4>,
+        message: "Password Should Match",
+        NegativeSnackBarOpen:true
       });
     }
   }
   render() {
     return (
       <div className="resetPassword">
-        <Row>
-          <Col md={6}>
-            <img
-              className="resetPassword-img"
-              src={require("./signupbg.jpg")}
-              alt="act_bg"
-            />
-          </Col>
-          <Col md={6} className="resetPassword-content">
+        
+        <img src={ResetImage} style={{width:"25%"}} alt="forget" />
             <h1>Reset Your Password!</h1>
-            {this.state.message}
 
             <form onSubmit={this.resetPassword}>
               {/*------------ password--------------- */}
@@ -128,8 +138,21 @@ export default class ResetPassword extends Component {
                 <span style={{ color: "white" }}>LOGIN</span>
               </button>
             </form>
-          </Col>
-        </Row>
+          
+        <Snackbar
+        open={this.state.NegativeSnackBarOpen}
+        autoHideDuration={6000}
+        onClose={this.handleNegativeSnackbarClose}>
+        <Alert severity='error'>{this.state.message}</Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={this.state.PositiveSnackBarOpen}
+        autoHideDuration={6000}
+        onClose={this.handlePositiveSnackbarClose}>
+        <Alert severity='success'>{this.state.message}</Alert>
+      </Snackbar>
+
       </div>
     );
   }

@@ -3,36 +3,29 @@ import { Alert, Accordion, Button, Card } from "react-bootstrap";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { MdCancel } from "react-icons/md";
 
-export default function Description({ closecallback, listoforder, useforalg }) {
+export default function Description({ closecallback, algoData}) {
   //  to display list of content or description
-  const [Choose, setchoose] = useState(1);
-  // title to display
-  // const [Title, settitle] = useState("Sort Alogrithm");
-  const [Title] = useState("Sort Alogrithm");
-  //temp catlog
-  // const [catlog, Setcatlog] = useState(listoforder);
-  const [catlog] = useState(listoforder);
-  //where to use
-  // const [touse, settouse] = useState(useforalg);
-  const [touse] = useState(useforalg);
-  //clicked alg name
-  const [algname, setalgname] = useState("");
-  //display description of selected alg
-  //const [showdescription, setshowdescription] = useState("tosetthis");
-  //display where to use of selected alg
-  //const [wheretouse, setwheretouse] = useState("tosetthis");
-  //handle list of content or description
-  const varityhandler = (name, id) => {
-    setchoose(0);
-    setalgname(name);
+  const [Choose, setChoose] = useState(1);
+
+  const [algo,setAlgo] = useState(algoData);
+  
+  const varietyHandler = (name, id) => {
+    setChoose(0);
+    // setAlgoName(name);
   };
+  const truncateText=(text)=> {
+    if (text.length > 50) {
+        text = text.substr(0,50) + '...';
+    }
+    return text;
+  }
   return (
     <div>
       {Choose === 1 ? (
         <div>
           <Alert variant='primary'>
             <Alert.Heading className='mb-0'>
-              {Title}
+            Title
               <span
                 style={{
                   cursor: "pointer",
@@ -50,24 +43,15 @@ export default function Description({ closecallback, listoforder, useforalg }) {
             </Alert.Heading>
           </Alert>
           <div style={{ overflowY: "auto", height: "80vh" }}>
-            {catlog.map((item, ids) => (
-              <span key={ids} onClick={() => varityhandler(item, ids)}>
-                {/* onClick={() => varityhandler(item, ids)} */}
-                <Card
-                  bg={"primary"}
-                  style={{
-                    cursor: "pointer",
-                    marginRight: "10px",
-                    marginLeft: "10px",
-                  }}
-                  className='mb-2'>
-                  <Card.Body>
-                    <Card.Title>{item}</Card.Title>
-                    <Card.Text style={{ textAlign: "justify" }}>
-                      {touse}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+            {algo.map((item, ids) => (
+              <span style={{padding:"20px"}} key={ids} onClick={() => varietyHandler(item, ids)}>
+                {/* onClick={() => varietyHandler(item, ids)} */}
+                
+                    {item.name}
+                    <br/>
+                    <p>{truncateText(item.description)}
+                    </p>
+                    <hr/>
               </span>
             ))}
           </div>
@@ -76,10 +60,10 @@ export default function Description({ closecallback, listoforder, useforalg }) {
         <div>
           <Alert variant={"primary"}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span style={{ cursor: "pointer" }} onClick={() => setchoose(1)}>
+              <span style={{ cursor: "pointer" }} onClick={() => setChoose(1)}>
                 <TiArrowLeftThick size={25} color='red' />
               </span>
-              <h5 className='mb-0'>{algname}</h5>
+              <h5 className='mb-0'>algoname</h5>
               <span
                 style={{ cursor: "pointer" }}
                 onClick={() => {
@@ -115,7 +99,7 @@ export default function Description({ closecallback, listoforder, useforalg }) {
                   variant='link'
                   eventKey='1'
                   style={{ cursor: "pointer" }}>
-                  Whrer To Use
+                  Where To Use
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey='1'>

@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { GoogleLogin } from "react-google-login";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 function Login() {
   const history = useHistory();
@@ -21,80 +22,84 @@ function Login() {
   };
 
   const handlePositiveSnackbarClose = () => {
-    setNegativeSnackBarOpen(false);
+    setPositiveSnackBarOpen(false);
     setMessage("");
   };
 
-  // responseFacebook(responseFacebook) {
-  // 	//if received positive response from facebook
-  // 	if (responseFacebook.accessToken) {
-  // 	  //access data from facebook response and sending to our server
-  // 	  const url = 'https://ezpalateserver.herokuapp.com/api/socialsignin';
+  const responseFacebook=(responseFacebook)=> {
+    setMessage("")
+    console.log(responseFacebook);
+    //if received positive response from facebook
+  	if (responseFacebook.accessToken) {
+  	  //access data from facebook response and sending to our server
+  	  const url = 'https://application-wingman.herokuapp.com/api/socialsignin';
 
-  // 	  //body of api
-  // 	  var data = {
-  // 		email: responseFacebook.email,
-  // 		expiry: responseFacebook.expiresIn,
-  // 	  };
+  	  //body of api
+  	  var data = {
+  		email: responseFacebook.email,
+  		expiry: responseFacebook.expiresIn,
+  	  };
 
-  // 	  //send fb access token as bearer token
-  // 	  var bearer = 'Bearer ' + responseFacebook.accessToken;
+  	  //send fb access token as bearer token
+  	  var bearer = 'Bearer ' + responseFacebook.accessToken;
 
-  // 	  //post request with bearer token in header and json body details
-  // 	  fetch(url, {
-  // 		method: 'POST',
-  // 		headers: {
-  // 		  Authorization: bearer,
-  // 		  'Content-Type': 'application/json',
-  // 		},
-  // 		body: JSON.stringify(data),
-  // 	  })
-  // 		//receive response as json
-  // 		.then((res) => res.json())
+  	  //post request with bearer token in header and json body details
+  	  fetch(url, {
+  		method: 'POST',
+  		headers: {
+  		  Authorization: bearer,
+  		  'Content-Type': 'application/json',
+  		},
+  		body: JSON.stringify(data),
+  	  })
+  		//receive response as json
+  		.then((res) => res.json())
 
-  // 		//catch fetch errors => could'nt reach api
-  // 		.catch((error) => {
-  // 		  this.setState({
-  // 			message: 'Something Went Wrong!',
-  // 			NegativeSnackBarOpen: true,
-  // 		  });
-  // 		  console.error('Error', error);
-  // 		})
+  		//catch fetch errors => could'nt reach api
+  		.catch((error) => {
+        setMessage("Something Went Wrong!")
+        setNegativeSnackBarOpen(true)
+  		  console.error('Error', error);
+  		})
 
-  // 		//accessing received response
-  // 		.then((response) => {
-  // 		  if (response) {
-  // 			if (response.status === 'Error') {
-  // 			  //set error message to state error
-  // 			  this.setState({
-  // 				message: response.message,
-  // 				NegativeSnackBarOpen: true,
-  // 			  });
-  // 			} else {
-  // 			  //sending response to function =>authentication() in Navbar.js
-  // 			  this.setState({
-  // 				message: response.message,
-  // 				PositiveSnackBarOpen: true,
-  // 			  });
-  // 			  this.props.onAuth(response);
-  // 			}
-  // 		  }
-  // 		});
-  // 	} else {
-  // 	  //received negative message from facebook auth api
-  // 	  console.log(responseFacebook);
-  // 	}
-  //   }
+  		//accessing received response
+  		.then((response) => {
+  		  if (response) {
+  			if (response.status === 'Error') {
+  			  //set error message to state error
+          setMessage(response.message)
+          setNegativeSnackBarOpen(true)
+        } else {
+          setMessage(response.message)
+          console.log(response);
+          setPositiveSnackBarOpen(true)
+          history.push("/");
+  			}
+  		  }
+  		});
+  	} else {
+  	  //received negative message from facebook auth api
+      setMessage("Something Went Wrong")
+      setNegativeSnackBarOpen(true)
+      console.log(responseFacebook);
+  	}
+    }
 
   const NegativeResponseGoogle = (responseGoogle) => {
     console.log("neagtive:", responseGoogle);
+    setMessage(responseGoogle.error)
+    setNegativeSnackBarOpen(true)
   };
 
   const PositiveResponseGoogle = (responseGoogle) => {
+    
+    //clearing previous error state
+    setMessage("");
+
     //if received positive response from google Oauth api
     if (responseGoogle.googleId) {
       //access data from google response and sending to our server
-      const url = "/api/socialsignin";
+      const url = "https://application-wingman.herokuapp.com/api/socialsignin";
 
       console.log(responseGoogle);
       //body of api
@@ -131,20 +136,13 @@ function Login() {
           if (response) {
             if (response.status === "Error") {
               //set error message to state error
-              this.setState({
-                message: response.message,
-                NegativeSnackBarOpen: true,
-              });
-              setMessage(response.message);
-              setNegativeSnackBarOpen();
+             setMessage(response.message);
+             setNegativeSnackBarOpen(true);
             } else {
-              //sending response to function =>authentication() in Navbar.js
-              this.setState({
-                message: response.message,
-                PositiveSnackBarOpen: true,
-              });
-              this.props.onAuth(response);
+              setMessage(response.message);
+              setPositiveSnackBarOpen(true);
               console.log("Success:", response);
+              history.push("/");
             }
           }
         });
@@ -164,6 +162,7 @@ function Login() {
       email: login.username,
       password: login.password,
     };
+    console.log(data);
 
     //post request with json body details
     fetch(url, {
@@ -192,10 +191,10 @@ function Login() {
             setNegativeSnackBarOpen(true);
           } else {
             //sending response to function =>authentication() in Navbar.js
-            setMessage(response.message);
-            setPositiveSnackBarOpen(true);
             console.log("Success:", response);
             history.push("/");
+            setMessage(response.message);
+            setPositiveSnackBarOpen(true);
           }
         }
       });
@@ -209,6 +208,7 @@ function Login() {
         <div>
           <input
             type='text'
+            required
             placeholder='Enter Username or Email id'
             value={login.username}
             onChange={(e) => setLogin({ ...login, username: e.target.value })}
@@ -217,13 +217,14 @@ function Login() {
         <div>
           <input
             type='password'
+            required
             placeholder='Password'
             value={login.password}
             onChange={(e) => setLogin({ ...login, password: e.target.value })}
           />
         </div>
         <div></div>
-        <input type='button' value='submit' onClick={onSignin} />
+        <input type='button' value='submit' onClick={(e)=>onSignin(e)} />
         <div>
           <hr />
           <div
@@ -232,11 +233,19 @@ function Login() {
               flexDirection: "column",
               display: "flex",
             }}>
-            <span>
+            <span style={{cursor:"pointer"}}>
+            <FacebookLogin
+                appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+                callback={responseFacebook}
+                fields="name,email,picture"
+                render={(renderProps) => (
               <FaFacebook
                 size={25}
+                onClick={renderProps.onClick}
                 style={{ marginRight: "16px" }}
                 color='#18009a'
+              />
+              )}
               />
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -258,7 +267,9 @@ function Login() {
                 marginTop: "10px",
                 cursor: "pointer",
                 color: "#FFFFFF",
-              }}>
+              }}
+               onClick={()=>history.push("/session/forget-password")}
+              >
               Forgot password ?
             </span>
           </div>

@@ -10,7 +10,6 @@ export default function Botsender(props) {
           <em>Bot</em>
         </b>
       </p>
-      <br />
       {word}
     </div>
   );

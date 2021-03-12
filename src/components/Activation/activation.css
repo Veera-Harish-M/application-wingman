@@ -1,20 +1,18 @@
 .activation {
   height: 100vh;
   overflow: hidden;
-  background-image: url("../../asserts/signupbg.jpg");
 }
 
 .activation .activation-content {
-  margin-top: 36vh;
   text-align: center;
 }
 
 .activation .activation-content h1 {
   font-size: 90px;
-  color: #ffffff;
+
 }
 
 .activation .activation-content h5 {
-  color: #e9ecef;
+
   padding-top: 20px;
 }

@@ -9,27 +9,52 @@ function Home() {
   // to display description or not
   const [Close, setclose] = useState(1);
   //get list of content to display
-  const [listoforder] = useState([
-    "Quick Sort",
-    "Bubble Sort",
-    "Merge Sort",
-    "Insertion Sort",
-    "Selection Sort",
-    "Heap Sort",
-    "Radix Sort",
-    "Bucket Sort",
-    "Heap Sort",
-    "Radix Sort",
-    "Bucket Sort",
-    "Heap Sort",
-    "Radix Sort",
-    "Bucket Sort",
+  const [algo] = useState([
+    {
+    name:"Quick Sort",
+    description:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+    ease:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+    timeComplexity:"O(n)",
+    spaceComplexity:"O(nlogn)",
+    code:'public class HelloWorld{public static void main(String[] args) { System.out.println("Hello, World");}}'
+    },
+    {
+      name:"Insertion Sort",
+      description:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+      ease:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+      timeComplexity:"O(n)",
+      spaceComplexity:"O(nlogn)",
+      code:'public class HelloWorld{public static void main(String[] args) { System.out.println("Hello, World");}}'
+      },{
+        name:"Snell Sort",
+        description:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+        ease:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+        timeComplexity:"O(n)",
+        spaceComplexity:"O(nlogn)",
+        code:'public class HelloWorld{public static void main(String[] args) { System.out.println("Hello, World");}}'
+        },{
+          name:"Merge Sort",
+          description:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+          ease:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+          timeComplexity:"O(n)",
+          spaceComplexity:"O(nlogn)",
+          code:'public class HelloWorld{public static void main(String[] args) { System.out.println("Hello, World");}}'
+          },{
+            name:"Rsdix Sort",
+            description:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+            ease:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+            timeComplexity:"O(n)",
+            spaceComplexity:"O(nlogn)",
+            code:'public class HelloWorld{public static void main(String[] args) { System.out.println("Hello, World");}}'
+            },{
+              name:"Bubble Sort",
+              description:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+              ease:"a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+              timeComplexity:"O(n)",
+              spaceComplexity:"O(nlogn)",
+              code:'public class HelloWorld{public static void main(String[] args) { System.out.println("Hello, World");}}'
+              }
   ]);
-  //use of algorithm
-  const op =
-    "a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.";
-  // const [useforalg, setuseforalg] = useState(op);
-  const [useforalg] = useState(op);
   return (
     <div>
       <div className='home'>
@@ -48,9 +73,8 @@ function Home() {
                 closecallback={(cc) => {
                   setclose(cc);
                 }}
-                listoforder={listoforder}
-                useforalg={useforalg}
-              />
+                algoData={algo}
+                />
             </div>
           </ResizePanel>
         ) : (
