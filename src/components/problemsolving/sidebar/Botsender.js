@@ -4,12 +4,14 @@ import "./chart.css";
 export default function Botsender(props) {
   const { word } = props;
   return (
-    <div className='boxx received'>
-      <p style={{ fontSize: "13px" }}>
+    <div
+      className='boxx received'
+      style={{ fontFamily: "Work Sans,sans-serif" }}>
+      <div style={{ fontSize: "13px", fontFamily: "Josefin Sans, sans-serif" }}>
         <b>
           <em>Bot</em>
         </b>
-      </p>
+      </div>
       {word}
     </div>
   );

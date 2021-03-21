@@ -22,12 +22,16 @@
   height: max-content;
 } */
 
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500&display=swap");
+
 .middelbody {
-	height: 80vh;
-	overflow-y: scroll;
-  }
-  
+  height: 80vh;
+  overflow-y: scroll;
+}
+
 .scrc {
-	height: 300px;
-	overflow-y: scroll;	
+  height: 300px;
+  overflow-y: scroll;
 }

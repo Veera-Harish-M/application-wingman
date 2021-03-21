@@ -14,15 +14,17 @@ mic.continuous = true;
 mic.interimResults = true;
 mic.lang = "en-US";
 
-export default function Chart() {
+export default function Chart(props) {
+  const { val } = props;
+  console.log(val);
   // mic rec
   const [isListening, setIsListening] = useState(false);
   // chat history
-  const [fillup, setFillup] = useState([
-    { id: "0", msg: "welcome !helo", who: "bot" },
-    { id: "1", msg: "welcome !helo", who: "bot" },
-    { id: "2", msg: "helo", who: "user" },
-  ]);
+  // const [fillup, setFillup] = useState([
+  //   { id: "0", msg: "welcome !helo", who: "bot" },
+  //   { id: "1", msg: "welcome !helo", who: "bot" },
+  //   { id: "2", msg: "helo", who: "user" },
+  // ]);
   // giving id to insert in chat histery
   const [ids, Setids] = useState(3);
   // get input from user
@@ -32,7 +34,8 @@ export default function Chart() {
     if (inp.length >= 1) {
       console.log(inp);
       var a = inp;
-      setFillup([...fillup, { id: ids, msg: a, who: "user" }]);
+      // val.onChange([...val, { id: ids, msg: a, who: "user" }]);
+      props.onChange([...val, { id: ids, msg: a, who: "user" }]);
       var temp = ids + 1;
       Setids(temp);
       setInp("");
@@ -89,7 +92,7 @@ export default function Chart() {
         }}
         id='style-4'>
         <ScrollableFeed>
-          {fillup.map((item, ids) => (
+          {val.map((item, ids) => (
             <div key={ids}>
               {item.who === "bot" ? (
                 <Botsender word={item.msg} />

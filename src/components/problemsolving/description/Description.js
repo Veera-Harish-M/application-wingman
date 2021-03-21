@@ -1,31 +1,41 @@
 import React, { useState } from "react";
-import { Alert, Accordion, Button, Card } from "react-bootstrap";
+import {
+  Alert,
+  Accordion,
+  Button,
+  Card,
+  Row,
+  Col,
+  Container,
+} from "react-bootstrap";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { MdCancel } from "react-icons/md";
+import { Avatar } from "@material-ui/core";
+import "./description.css";
 
-export default function Description({ closecallback, algoData}) {
+export default function Description({ closecallback, algoData }) {
   //  to display list of content or description
   const [Choose, setChoose] = useState(1);
 
-  const [algo,setAlgo] = useState(algoData);
-  
+  const [algo, setAlgo] = useState(algoData);
+
   const varietyHandler = (name, id) => {
     setChoose(0);
     // setAlgoName(name);
   };
-  const truncateText=(text)=> {
+  const truncateText = (text) => {
     if (text.length > 50) {
-        text = text.substr(0,50) + '...';
+      text = text.substr(0, 50) + "...";
     }
     return text;
-  }
+  };
   return (
     <div>
       {Choose === 1 ? (
         <div>
-          <Alert variant='primary'>
+          <Alert variant='primary' style={{ fontFamily: "Ubuntu, sans-serif" }}>
             <Alert.Heading className='mb-0'>
-            Title
+              Title
               <span
                 style={{
                   cursor: "pointer",
@@ -44,21 +54,41 @@ export default function Description({ closecallback, algoData}) {
           </Alert>
           <div style={{ overflowY: "auto", height: "80vh" }}>
             {algo.map((item, ids) => (
-              <span style={{padding:"20px"}} key={ids} onClick={() => varietyHandler(item, ids)}>
+              <span
+                style={{ padding: "20px" }}
+                key={ids}
+                onClick={() => varietyHandler(item, ids)}>
                 {/* onClick={() => varietyHandler(item, ids)} */}
-                
-                    {item.name}
-                    <br/>
-                    <p>{truncateText(item.description)}
-                    </p>
-                    <hr/>
+                <Card bg={"primary"}>
+                  <Container>
+                    <Row>
+                      <Col xs={2}>
+                        <Avatar
+                          style={{ cursor: "pointer", marginTop: "1rem" }}
+                          alt='User'
+                          src='https://pbs.twimg.com/profile_images/1114825534469337088/ltftakAN.jpg'
+                        />
+                      </Col>
+                      <Col style={{ cursor: "pointer" }}>
+                        <div style={{ fontFamily: "Josefin Sans, sans-serif" }}>
+                          {item.name}
+                        </div>
+                        <div style={{ fontFamily: "Work Sans,sans-serif" }}>
+                          {truncateText(item.description)}
+                        </div>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Card>
               </span>
             ))}
           </div>
         </div>
       ) : (
         <div>
-          <Alert variant={"primary"}>
+          <Alert
+            variant={"primary"}
+            style={{ fontFamily: "Ubuntu, sans-serif" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span style={{ cursor: "pointer" }} onClick={() => setChoose(1)}>
                 <TiArrowLeftThick size={25} color='red' />

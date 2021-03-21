@@ -12,6 +12,7 @@ import { Controlled as ControlledEditor } from "react-codemirror2";
 function Editor(props) {
   const { language, displayName, value, onChange } = props;
   function handleChange(editor, data, value) {
+    console.log(editor, data, value);
     onChange(value);
     console.log(displayName);
   }

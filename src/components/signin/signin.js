@@ -6,7 +6,9 @@ import { FcGoogle } from "react-icons/fc";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { GoogleLogin } from "react-google-login";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { VscGithub } from "react-icons/vsc";
+import { ImLinkedin } from "react-icons/im";
 
 function Login() {
   const history = useHistory();
@@ -26,73 +28,72 @@ function Login() {
     setMessage("");
   };
 
-  const responseFacebook=(responseFacebook)=> {
-    setMessage("")
+  const responseFacebook = (responseFacebook) => {
+    setMessage("");
     console.log(responseFacebook);
     //if received positive response from facebook
-  	if (responseFacebook.accessToken) {
-  	  //access data from facebook response and sending to our server
-  	  const url = 'https://application-wingman.herokuapp.com/api/socialsignin';
+    if (responseFacebook.accessToken) {
+      //access data from facebook response and sending to our server
+      const url = "https://application-wingman.herokuapp.com/api/socialsignin";
 
-  	  //body of api
-  	  var data = {
-  		email: responseFacebook.email,
-  		expiry: responseFacebook.expiresIn,
-  	  };
+      //body of api
+      var data = {
+        email: responseFacebook.email,
+        expiry: responseFacebook.expiresIn,
+      };
 
-  	  //send fb access token as bearer token
-  	  var bearer = 'Bearer ' + responseFacebook.accessToken;
+      //send fb access token as bearer token
+      var bearer = "Bearer " + responseFacebook.accessToken;
 
-  	  //post request with bearer token in header and json body details
-  	  fetch(url, {
-  		method: 'POST',
-  		headers: {
-  		  Authorization: bearer,
-  		  'Content-Type': 'application/json',
-  		},
-  		body: JSON.stringify(data),
-  	  })
-  		//receive response as json
-  		.then((res) => res.json())
+      //post request with bearer token in header and json body details
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: bearer,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        //receive response as json
+        .then((res) => res.json())
 
-  		//catch fetch errors => could'nt reach api
-  		.catch((error) => {
-        setMessage("Something Went Wrong!")
-        setNegativeSnackBarOpen(true)
-  		  console.error('Error', error);
-  		})
+        //catch fetch errors => could'nt reach api
+        .catch((error) => {
+          setMessage("Something Went Wrong!");
+          setNegativeSnackBarOpen(true);
+          console.error("Error", error);
+        })
 
-  		//accessing received response
-  		.then((response) => {
-  		  if (response) {
-  			if (response.status === 'Error') {
-  			  //set error message to state error
-          setMessage(response.message)
-          setNegativeSnackBarOpen(true)
-        } else {
-          setMessage(response.message)
-          console.log(response);
-          setPositiveSnackBarOpen(true)
-          history.push("/");
-  			}
-  		  }
-  		});
-  	} else {
-  	  //received negative message from facebook auth api
-      setMessage("Something Went Wrong")
-      setNegativeSnackBarOpen(true)
+        //accessing received response
+        .then((response) => {
+          if (response) {
+            if (response.status === "Error") {
+              //set error message to state error
+              setMessage(response.message);
+              setNegativeSnackBarOpen(true);
+            } else {
+              setMessage(response.message);
+              console.log(response);
+              setPositiveSnackBarOpen(true);
+              history.push("/");
+            }
+          }
+        });
+    } else {
+      //received negative message from facebook auth api
+      setMessage("Something Went Wrong");
+      setNegativeSnackBarOpen(true);
       console.log(responseFacebook);
-  	}
     }
+  };
 
   const NegativeResponseGoogle = (responseGoogle) => {
     console.log("neagtive:", responseGoogle);
-    setMessage(responseGoogle.error)
-    setNegativeSnackBarOpen(true)
+    setMessage(responseGoogle.error);
+    setNegativeSnackBarOpen(true);
   };
 
   const PositiveResponseGoogle = (responseGoogle) => {
-    
     //clearing previous error state
     setMessage("");
 
@@ -136,8 +137,8 @@ function Login() {
           if (response) {
             if (response.status === "Error") {
               //set error message to state error
-             setMessage(response.message);
-             setNegativeSnackBarOpen(true);
+              setMessage(response.message);
+              setNegativeSnackBarOpen(true);
             } else {
               setMessage(response.message);
               setPositiveSnackBarOpen(true);
@@ -224,55 +225,55 @@ function Login() {
           />
         </div>
         <div></div>
-        <input type='button' value='submit' onClick={(e)=>onSignin(e)} />
+        <input type='button' value='submit' onClick={(e) => onSignin(e)} />
         <div>
           <hr />
           <div
             style={{
-              alignItems: "center",
-              flexDirection: "column",
+              // alignItems: "center",
+              //flexDirection: "column",
+              justifyContent: "space-around",
               display: "flex",
             }}>
-            <span style={{cursor:"pointer"}}>
-            <FacebookLogin
-                appId={process.env.REACT_APP_FACEBOOK_APP_ID}
-                callback={responseFacebook}
-                fields="name,email,picture"
-                render={(renderProps) => (
-              <FaFacebook
-                size={25}
-                onClick={renderProps.onClick}
-                style={{ marginRight: "16px" }}
-                color='#18009a'
-              />
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              render={(renderProps) => (
+                <FcGoogle
+                  size={25}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                />
               )}
-              />
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                render={(renderProps) => (
-                  <FcGoogle
-                    size={25}
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                  />
-                )}
-                buttonText='Login'
-                onSuccess={PositiveResponseGoogle}
-                onFailure={NegativeResponseGoogle}
-              />
-            </span>
-            <span
-              className='forgot'
-              style={{
-                marginTop: "10px",
-                cursor: "pointer",
-                color: "#FFFFFF",
-              }}
-               onClick={()=>history.push("/session/forget-password")}
-              >
-              Forgot password ?
-            </span>
+              buttonText='Login'
+              onSuccess={PositiveResponseGoogle}
+              onFailure={NegativeResponseGoogle}
+            />
+            <FacebookLogin
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+              callback={responseFacebook}
+              fields='name,email,picture'
+              render={(renderProps) => (
+                <FaFacebook
+                  size={25}
+                  onClick={renderProps.onClick}
+                  style={{ marginRight: "16px" }}
+                  color='#18009a'
+                />
+              )}
+            />
+            <VscGithub size={25} color={"black"} />
+            <ImLinkedin size={25} color={"#0e76a8"} />
           </div>
+          <span
+            className='forgot'
+            style={{
+              marginTop: "40px",
+              cursor: "pointer",
+              color: "#FFFFFF",
+            }}
+            onClick={() => history.push("/session/forget-password")}>
+            Forgot password ?
+          </span>
         </div>
       </form>
 
