@@ -1,47 +1,54 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
-  Alert,
   Accordion,
   Button,
   Card,
-  Row,
-  Col,
-  Container,
 } from "react-bootstrap";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { MdCancel } from "react-icons/md";
-import { Avatar } from "@material-ui/core";
 import "./description.css";
+import AlgoDisplay from './algoDisplay';
 
-export default function Description({ closecallback, algoData }) {
+export default function Description({ closecallback, algoData ,getSelectedAlgo}) {
   //  to display list of content or description
   const [Choose, setChoose] = useState(1);
 
-  const [algo, setAlgo] = useState(algoData);
+  const [algo, setAlgo] = useState([]);
+  const [selectedAlgo ,setSelectedAlgo]=useState("");
 
   const varietyHandler = (name, id) => {
     setChoose(0);
-    // setAlgoName(name);
+    setSelectedAlgo(name);
   };
   const truncateText = (text) => {
-    if (text.length > 50) {
-      text = text.substr(0, 50) + "...";
+    if (text.length > 60) {
+      text = text.substr(0, 60) + "...";
     }
     return text;
   };
+
+  useEffect(() => {
+    setAlgo(algoData);
+    console.log("commming");
+    setSelectedAlgo("");
+  }, [algoData])
+
+
+  const onAlgoClick=()=>{
+    getSelectedAlgo(selectedAlgo);
+  }
+
+
   return (
-    <div>
+    <div className="details">
       {Choose === 1 ? (
-        <div>
-          <Alert variant='primary' style={{ fontFamily: "Ubuntu, sans-serif" }}>
-            <Alert.Heading className='mb-0'>
-              Title
-              <span
+        <div style={{cursor: "pointer"}}>
+              <div className="title"><b>Title</b><span
                 style={{
-                  cursor: "pointer",
                   position: "absolute",
                   right: "0px",
-                  padding: "12px 16px",
+                  marginTop: "10px",
+                  marginRight: "15px",
                   transform: "Translate(0%, -50%)",
                   color: "red",
                 }}
@@ -49,65 +56,48 @@ export default function Description({ closecallback, algoData }) {
                   closecallback(0);
                 }}>
                 &times;
-              </span>
-            </Alert.Heading>
-          </Alert>
-          <div style={{ overflowY: "auto", height: "80vh" }}>
+              </span></div>
+             
+
+          <div style={{overflowY: "auto", height: "80vh" }} >
             {algo.map((item, ids) => (
               <span
-                style={{ padding: "20px" }}
                 key={ids}
-                onClick={() => varietyHandler(item, ids)}>
-                {/* onClick={() => varietyHandler(item, ids)} */}
-                <Card bg={"primary"}>
-                  <Container>
-                    <Row>
-                      <Col xs={2}>
-                        <Avatar
-                          style={{ cursor: "pointer", marginTop: "1rem" }}
-                          alt='User'
-                          src='https://pbs.twimg.com/profile_images/1114825534469337088/ltftakAN.jpg'
-                        />
-                      </Col>
-                      <Col style={{ cursor: "pointer" }}>
-                        <div style={{ fontFamily: "Josefin Sans, sans-serif" }}>
-                          {item.name}
-                        </div>
-                        <div style={{ fontFamily: "Work Sans,sans-serif" }}>
-                          {truncateText(item.description)}
-                        </div>
-                      </Col>
-                    </Row>
-                  </Container>
-                </Card>
+                onClick={() => varietyHandler(item, ids)}
+                >
+                <AlgoDisplay
+                algoItem={item}
+                title={item.name} 
+                onAlgoClick={onAlgoClick} 
+                description={truncateText(item.description)} 
+                timecomplexity={item.timecomplexity} 
+                image={"https://i.pinimg.com/originals/1c/54/f7/1c54f7b06d7723c21afc5035bf88a5ef.png"}/>
               </span>
             ))}
           </div>
         </div>
       ) : (
-        <div>
-          <Alert
-            variant={"primary"}
-            style={{ fontFamily: "Ubuntu, sans-serif" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span style={{ cursor: "pointer" }} onClick={() => setChoose(1)}>
-                <TiArrowLeftThick size={25} color='red' />
-              </span>
-              <h5 className='mb-0'>algoname</h5>
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  closecallback(0);
-                }}>
-                <MdCancel size={25} color='red' />
-              </span>
+        <div >
+            <div  className='title' > 
+              <span style={{ display: "flex", justifyContent: "space-between" }}> 
+                <span style={{ cursor: "pointer" }} onClick={() => setChoose(1)}>
+                  <TiArrowLeftThick size={18} color='red' />
+                </span>
+              
+                <h5>{selectedAlgo.name}</h5>
+                <MdCancel 
+                  style={{ cursor: "pointer",marginTop: "7px" }}
+                    onClick={() => {
+                      closecallback(0);
+                    }} size={15} color='red' 
+                />
+              </span> 
             </div>
-          </Alert>
+          <div style={{overflowY: "auto", height: "80vh" }}>
           <Accordion
-            defaultActiveKey='0'
-            style={{ backgroundColor: "#343a40" }}>
-            <Card style={{ backgroundColor: "#343a40" }}>
-              <Card.Header>
+            defaultActiveKey='0'>
+            <Card className="cardBody">
+              <Card.Header className="cardHeader">
                 <Accordion.Toggle
                   as={Button}
                   variant='link'
@@ -118,12 +108,12 @@ export default function Description({ closecallback, algoData }) {
               </Card.Header>
               <Accordion.Collapse eventKey='0'>
                 <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
-                  Hello! I'm the body
+                  {selectedAlgo.description}
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
-            <Card style={{ backgroundColor: "#343a40" }}>
-              <Card.Header>
+            <Card className="cardBody">
+              <Card.Header className="cardHeader">
                 <Accordion.Toggle
                   as={Button}
                   variant='link'
@@ -134,12 +124,12 @@ export default function Description({ closecallback, algoData }) {
               </Card.Header>
               <Accordion.Collapse eventKey='1'>
                 <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
-                  Hello! I'm another body
+                {selectedAlgo.usage}
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
-            <Card style={{ backgroundColor: "#343a40" }}>
-              <Card.Header>
+            <Card className="cardBody">
+              <Card.Header className="cardHeader">
                 <Accordion.Toggle
                   as={Button}
                   variant='link'
@@ -150,12 +140,14 @@ export default function Description({ closecallback, algoData }) {
               </Card.Header>
               <Accordion.Collapse eventKey='2'>
                 <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
-                  Hello! I'm another body
+                Space Complexity : {selectedAlgo.spacecomplexity}
+                <br/>
+                Time Complexity : {selectedAlgo.timecomplexity}
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
-            <Card style={{ backgroundColor: "#343a40" }}>
-              <Card.Header>
+            <Card className="cardBody">
+              <Card.Header className="cardHeader">
                 <Accordion.Toggle
                   as={Button}
                   variant='link'
@@ -166,11 +158,12 @@ export default function Description({ closecallback, algoData }) {
               </Card.Header>
               <Accordion.Collapse eventKey='3'>
                 <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
-                  Hello! I'm another body
+                  {selectedAlgo.code}
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
           </Accordion>
+          </div>
         </div>
       )}
     </div>

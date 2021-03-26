@@ -16,6 +16,8 @@ function Editor(props) {
     onChange(value);
     console.log(displayName);
   }
+
+
   return (
     <div
       className='kj'

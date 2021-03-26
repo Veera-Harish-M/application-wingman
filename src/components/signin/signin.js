@@ -234,6 +234,7 @@ function Login() {
               //flexDirection: "column",
               justifyContent: "space-around",
               display: "flex",
+              cursor:"pointer"
             }}>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}

@@ -15,7 +15,7 @@ export default function Navigbar() {
     "PHP",
   ];
   return (
-    <Navbar collapseOnSelect expand='lg' className='navbar-dark' variant='dark'>
+    <Navbar collapseOnSelect  className='navbar-dark' variant='dark'>
       <Navbar.Brand href='#home'>INVOCO</Navbar.Brand>
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       <Navbar.Collapse id='responsive-navbar-nav'>

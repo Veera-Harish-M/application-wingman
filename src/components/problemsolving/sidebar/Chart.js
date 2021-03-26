@@ -35,10 +35,11 @@ export default function Chart(props) {
       console.log(inp);
       var a = inp;
       // val.onChange([...val, { id: ids, msg: a, who: "user" }]);
-      props.onChange([...val, { id: ids, msg: a, who: "user" }]);
+      props.onChange([...val, { id: ids, msg: a, who: "user" }],a);
       var temp = ids + 1;
       Setids(temp);
       setInp("");
+      setIsListening(false)
       //send to backend
     }
   };
@@ -75,10 +76,13 @@ export default function Chart(props) {
       // setNote(transcript);
       setInp(transcript);
       console.log(inp);
+      setInp("");
+      
 
       mic.onerror = (event) => {
         console.log(event.error);
       };
+      
     };
   };
 
@@ -87,7 +91,7 @@ export default function Chart(props) {
       <div
         style={{
           margin: "0px",
-          height: "76vh",
+          height: "73vh",
           overflowY: "auto",
         }}
         id='style-4'>
