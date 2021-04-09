@@ -2,6 +2,7 @@ import React from "react";
 import "./Navigbar.css";
 import { Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
+import {AiOutlineCloudUpload} from "react-icons/ai";
 export default function Navigbar() {
   const lag = [
     "Python 3",
@@ -51,8 +52,9 @@ export default function Navigbar() {
           </select>
         </Nav>
         <Nav>
-          <Nav.Link href='#deets'>Help</Nav.Link>
-          <Nav.Link eventKey={2} href='#memes'>
+        <Nav.Link href='#uploaded'><AiOutlineCloudUpload size={20} color='white'/></Nav.Link>
+          <Nav.Link href='/help'>Help</Nav.Link>
+          <Nav.Link eventKey={2} href='/about'>
             About
           </Nav.Link>
         </Nav>

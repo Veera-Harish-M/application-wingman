@@ -18,15 +18,12 @@ function App() {
     <div className='App'>
       <Router>
         <Switch>
-
           <Route exact path='/session/SignIn' component={SignIn} />
           <Route exact path='/session/SignUp' component={Regist} />
-          
           <Route exact path='/' component={CodeBlock} />
           <Route exact path='/gui' component={GuiVoice} />
           <Route exact path='/addnewalgorithm' component={AddnewAlgorithm} />
           <Route exact path='/auth/activation/:slug' component={Activation} />
-
           <Route exact path='/session/forget-password' component={Forgetpassword}/>
           <Route exact path='/auth/password/reset/:slug' component={ResetPassword} /> 
           <Route  component={Page404}/>
