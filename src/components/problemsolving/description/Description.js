@@ -9,7 +9,7 @@ import { Accordion, Button, Card } from "react-bootstrap";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { MdCancel } from "react-icons/md";
 import "./description.css";
-import AlgoDisplay from "./algoDisplay";
+//import AlgoDisplay from "./algoDisplay";
 
 export default function Description({
   closecallback,

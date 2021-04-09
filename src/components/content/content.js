@@ -38,7 +38,7 @@ import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 
 export default function Content({ algoCode }) {
-  const [language, Setlanguage] = useState("python");
+  const [language] = useState("python");
   const [code, Setcode] = useState("#hello");
   console.log("outside", algoCode);
 
@@ -47,9 +47,11 @@ export default function Content({ algoCode }) {
     let asp = code + algoCode;
 
     // Setcode(asp);
-    handleEditorChange(asp, "");
+    handleEditorChange(asp);
+    // eslint-disable-next-line 
   }, [algoCode]);
-  function handleEditorChange(value, event) {
+
+  function handleEditorChange(value) {
     console.log(value);
     Setcode(value);
     console.log("here is the current model value:", code);
