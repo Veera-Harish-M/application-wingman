@@ -38,14 +38,14 @@ export default function AlgoDisplay(props) {
             </span>}
           secondary={
             <React.Fragment>
-              {/* <Typography
+              <Typography
                 component="span"
                 variant="body2"
                 className={classes.inline}
                 color="textPrimary"
               >
               
-              </Typography> */}
+              </Typography>
               {props.description}
               <br/>
               <span style={{cursor:"pointer",color:"bule"}} onClick={props.onAlgoClick}>import Code</span>

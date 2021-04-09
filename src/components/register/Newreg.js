@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 export default function Newreg() {
   const [Register, setRegister] = useState({
@@ -7,9 +9,76 @@ export default function Newreg() {
     repassword: "",
   });
   const [submit, setsubmit] = useState(false);
+  const [PositiveSnackBarOpen, setPositiveSnackBarOpen] = useState(false);
+  const [NegativeSnackBarOpen, setNegativeSnackBarOpen] = useState(false);
+  const [message, setMessage] = useState("");
 
-  onsubmit=()=>{
+  const handleNegativeSnackbarClose = () => {
+    setNegativeSnackBarOpen(false);
+    setMessage("");
+  };
 
+  const handlePositiveSnackbarClose = () => {
+    setPositiveSnackBarOpen(false);
+    setMessage("");
+  };
+
+  onsubmit=(e)=>{
+    console.log("sdfsdS");
+    e.preventDefault();
+    //clearing previous error state
+    setMessage("");
+
+    if (Register.password === Register.repassword){
+      //send received data from user to our server
+      const url = "http://localhost:8000/api/signup";
+
+      //body of api
+      var data = {
+        name: Register.email,
+        email: Register.email,
+        password: Register.password,
+        profilepic: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
+      };
+      console.log(data);
+
+      //post request with json body details
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      })
+        //receive response as json
+        .then((res) => res.json())
+
+        //catch fetch errors => could'nt reach api
+        .catch((error) => {
+          //set error message to state error
+          setMessage("Something Went Wrong!");
+          setNegativeSnackBarOpen(true);
+
+          console.error("Error", error);
+        })
+
+        //accessing received response
+        .then((response) => {
+          if (response) {
+            if (response.status === "Error") {
+              //set error message to state error
+              setMessage(response.message);
+              setNegativeSnackBarOpen(true);
+            } else {
+              //sending response to function =>authentication() in Navbar.js
+              console.log("Success:", response);
+              setMessage(response.message);
+              setPositiveSnackBarOpen(true);
+            }
+          }
+        });
+    }else{
+      setMessage("password and confirm password should match");
+      setNegativeSnackBarOpen(true);
+    }
   }
 
   return (
@@ -58,8 +127,21 @@ export default function Newreg() {
             }}
           />
         </div>
-        <input type='button' value='submit' />
+        <input type='button' onClick={onsubmit} value='create profile' />
       </div>
+      <Snackbar
+        open={NegativeSnackBarOpen}
+        autoHideDuration={6000}
+        onClose={handleNegativeSnackbarClose}>
+        <Alert severity='error'>{message}</Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={PositiveSnackBarOpen}
+        autoHideDuration={6000}
+        onClose={handlePositiveSnackbarClose}>
+        <Alert severity='success'>{message}</Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -22,8 +22,7 @@ export default function NavForAddnew() {
             </Nav.Link>
             <Avatar
               alt='User'
-              src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTPmu9Ze9fb-wYJbfefUciUWsSxqUOKFRkHEw&usqp=CAU'
-            />
+              src=''          />
           </Nav>
         </Nav>
       </Navbar>
