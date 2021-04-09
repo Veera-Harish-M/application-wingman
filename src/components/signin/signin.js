@@ -100,7 +100,7 @@ function Login() {
     //if received positive response from google Oauth api
     if (responseGoogle.googleId) {
       //access data from google response and sending to our server
-      const url = "https://application-wingman.herokuapp.com/api/socialsignin";
+      const url = "http://localhost:8000/api/socialsignin";
 
       console.log(responseGoogle);
       //body of api
@@ -143,7 +143,7 @@ function Login() {
               setMessage(response.message);
               setPositiveSnackBarOpen(true);
               console.log("Success:", response);
-              history.push("/");
+          
             }
           }
         });

@@ -10,7 +10,7 @@ import "./content.css";
 import { Controlled as ControlledEditor } from "react-codemirror2";
 
 function Editor(props) {
-  const { language, displayName, value, onChange } = props;
+  const {  displayName, value, onChange } = props;
   function handleChange(editor, data, value) {
     console.log(editor, data, value);
     onChange(value);
@@ -31,7 +31,7 @@ function Editor(props) {
         options={{
           lineWrapping: true,
           lint: true,
-          mode: { language },
+          mode:  "python" ,
           theme: "material",
           lineNumbers: true,
         }}

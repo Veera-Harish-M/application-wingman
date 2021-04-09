@@ -5,7 +5,7 @@ import Editor from "./Editor";
 
 function Content({algoCode}) {
   console.log("here",algoCode);
-  const [html, setHtml] = useState("Happy Coding");
+  const [html, setHtml] = useState("#Happy Coding");
   // eslint-disable-next-line
   const [language, setLanguage] = useState("python");
   //const [algo,setAlgo]=useState("");
@@ -15,6 +15,7 @@ function Content({algoCode}) {
     console.log(algoCode);
     let asp = html+algoCode;
     setHtml(asp);
+    // eslint-disable-next-line
   }, [algoCode])
   
   const Toimport =(imp)=>{

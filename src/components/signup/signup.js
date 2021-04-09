@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "./signup.css";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 
 function Signup() {
 	const history = useHistory();
+	const [PositiveSnackBarOpen, setPositiveSnackBarOpen] = useState(false);
+	const [message, setMessage] = useState("");
 	const [data, setData] = useState({
 		Name: "",
 		Mobile: "",
@@ -13,13 +17,23 @@ function Signup() {
 		Password: "",
 		Repassword: "",
 	});
+	const handlePositiveSnackbarClose = () => {
+		setPositiveSnackBarOpen(false);
+		setMessage("");
+	  };
+	
+
+	
 	const handler = (e) => {
+		console.log("hjfghjfjhfh");
 		if (data.Password === data.Repassword) {
 			let path = `Startatfirst`;
 			history.push(path);
 		} else {
 			setData({ ...data, Password: "", Repassword: "" });
 		}
+		setMessage("Email has been sent to rajanrahul@gmail.com. Follow the instruction to activate your account");
+		setPositiveSnackBarOpen(true);
 		console.log(data);
 	};
 	return (
@@ -90,6 +104,13 @@ function Signup() {
 					</Button>
 				</div>
 			</div>
+			
+			<Snackbar
+        open={PositiveSnackBarOpen}
+        autoHideDuration={6000}
+        onClose={handlePositiveSnackbarClose}>
+        <Alert severity='success'>{message}</Alert>
+      </Snackbar>
 		</div>
 	);
 }

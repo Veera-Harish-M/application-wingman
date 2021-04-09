@@ -26,7 +26,7 @@ export default function Addalgorithm() {
             padding: "10px",
           }}>
           <Alert variant={"warning"}>
-            To Give a alert message before to post algorithm.
+          Be Carefull While Filling Form and Import Code By Using IDE
           </Alert>
           <Card className='mb-2'>
             <Card.Body>
