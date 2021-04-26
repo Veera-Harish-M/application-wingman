@@ -74,7 +74,7 @@ class Home extends Component{
 
 
   getAlgoWithUserInput=async(params)=>{
-    const url = `http://localhost:8000/api/getAlgoSearch/?search=${params}`;
+    const url = `https://application-wingman.herokuapp.com/api/getAlgoSearch/?search=${params}`;
 
       await fetch(url, {
         method: "GET",

@@ -31,7 +31,7 @@ export default function Newreg() {
 
     if (Register.password === Register.repassword){
       //send received data from user to our server
-      const url = "http://localhost:8000/api/signup";
+      const url = "https://application-wingman.herokuapp.com/api/signup";
 
       //body of api
       var data = {
