@@ -1,8 +1,8 @@
 import React from "react";
 import "./Navigbar.css";
-import { Nav, NavDropdown, Navbar } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
-import {AiOutlineCloudUpload} from "react-icons/ai";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 export default function Navigbar() {
   const lag = [
     "Python 3",
@@ -16,13 +16,13 @@ export default function Navigbar() {
     "PHP",
   ];
   return (
-    <Navbar collapseOnSelect  className='navbar-dark' variant='dark'>
-      <Navbar.Brand href='#home'>INVOCO</Navbar.Brand>
-      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-      <Navbar.Collapse id='responsive-navbar-nav'>
-        <Nav className='mr-auto'>
-          <Nav.Link href='#features'>File</Nav.Link>
-          <NavDropdown title='Edit' id='collasible-nav-dropdown'>
+    <Navbar collapseOnSelect className="navbar-dark" variant="dark">
+      <Navbar.Brand href="#home">INVOCO</Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="#features">File</Nav.Link>
+          {/* <NavDropdown title='Edit' id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#action/3.1'>Cut</NavDropdown.Item>
             <NavDropdown.Item href='#action/3.1'>Copy</NavDropdown.Item>
             <NavDropdown.Item href='#action/3.2'>Paste</NavDropdown.Item>
@@ -32,9 +32,9 @@ export default function Navigbar() {
             <NavDropdown.Divider />
             <NavDropdown.Item href='#action/3.4'>Undo</NavDropdown.Item>
             <NavDropdown.Item href='#action/3.4'>Redo</NavDropdown.Item>
-          </NavDropdown>
+          </NavDropdown> */}
           <select
-            className='form-control'
+            className="form-control"
             style={{
               background: "#343a40",
               borderRadius: "10px",
@@ -43,7 +43,8 @@ export default function Navigbar() {
               marginLeft: "10px",
               marginRight: "10px",
               borderColor: "#343a40",
-            }}>
+            }}
+          >
             {lag.map((lag, index) => (
               <option key={index} style={{ color: "white" }}>
                 {lag}
@@ -52,17 +53,19 @@ export default function Navigbar() {
           </select>
         </Nav>
         <Nav>
-        <Nav.Link href='#uploaded'><AiOutlineCloudUpload size={20} color='white'/></Nav.Link>
-          <Nav.Link href='/help'>Help</Nav.Link>
-          <Nav.Link eventKey={2} href='/about'>
+          <Nav.Link href="#uploaded">
+            <AiOutlineCloudUpload size={20} color="white" />
+          </Nav.Link>
+          <Nav.Link href="/help">Help</Nav.Link>
+          <Nav.Link eventKey={2} href="/about">
             About
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
       <Nav style={{ marginLeft: "10px" }}>
         <Avatar
-          alt='User'
-          src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTPmu9Ze9fb-wYJbfefUciUWsSxqUOKFRkHEw&usqp=CAU'
+          alt="User"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTPmu9Ze9fb-wYJbfefUciUWsSxqUOKFRkHEw&usqp=CAU"
         />
       </Nav>
     </Navbar>

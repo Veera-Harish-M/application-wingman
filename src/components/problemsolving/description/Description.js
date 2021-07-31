@@ -21,10 +21,12 @@ export default function Description({
 
   const [algo, setAlgo] = useState([]);
   const [selectedAlgo, setSelectedAlgo] = useState("");
+  const [selectedId, setSelectedId] = useState("");
 
   const varietyHandler = (name, id) => {
     setChoose(0);
     setSelectedAlgo(name);
+    setSelectedId(id);
   };
   const truncateText = (text) => {
     if (text.length > 60) {
@@ -45,10 +47,10 @@ export default function Description({
   };
 
   return (
-    <div className='details'>
+    <div className="details">
       {Choose === 1 ? (
         <div style={{ cursor: "pointer" }}>
-          <div className='title'>
+          <div className="title">
             <b>Title</b>
             <span
               style={{
@@ -61,7 +63,8 @@ export default function Description({
               }}
               onClick={() => {
                 closecallback(0);
-              }}>
+              }}
+            >
               &times;
             </span>
           </div>
@@ -70,13 +73,13 @@ export default function Description({
             {algo.map((item, ids) => (
               <div>
                 <span key={ids}>
-                  <span className='descriptionList'>
+                  <span className="descriptionList">
                     <List style={{ width: "100%", maxWidth: "36ch" }}>
-                      <ListItem alignItems='flex-start'>
+                      <ListItem alignItems="flex-start">
                         <ListItemAvatar>
                           <Avatar
-                            alt='Remy Sharp'
-                            src='https://i.pinimg.com/originals/1c/54/f7/1c54f7b06d7723c21afc5035bf88a5ef.png'
+                            alt="Remy Sharp"
+                            src="https://i.pinimg.com/originals/1c/54/f7/1c54f7b06d7723c21afc5035bf88a5ef.png"
                           />
                         </ListItemAvatar>
                         <ListItemText
@@ -85,7 +88,9 @@ export default function Description({
                               style={{
                                 display: "flex",
                                 justifyContent: "space-between",
-                              }}>
+                                textTransform: "capitalize",
+                              }}
+                            >
                               <b onClick={() => varietyHandler(item, ids)}>
                                 {item.name}
                               </b>
@@ -93,7 +98,8 @@ export default function Description({
                                 style={{
                                   fontSize: "0.7rem",
                                   color: "#a5a5a5",
-                                }}>
+                                }}
+                              >
                                 {item.timecomplexity}
                               </span>
                             </span>
@@ -101,17 +107,22 @@ export default function Description({
                           secondary={
                             <React.Fragment>
                               {truncateText(item.description)}
-                              <br />
+                              <hr style={{ margin: "5px" }} />
                               <span
-                                style={{ cursor: "pointer", color: "bule" }}
-                                onClick={() => onAlgoClick(item, ids)}>
-                                import Code
+                                style={{
+                                  cursor: "pointer",
+                                  color: "blue",
+                                  marginTop: "10px",
+                                }}
+                                onClick={() => onAlgoClick(item, ids)}
+                              >
+                                <b>Import Code</b>
                               </span>
                             </React.Fragment>
                           }
                         />
                       </ListItem>
-                      <Divider variant='inset' component='li' />
+                      <Divider variant="inset" component="li" />
                     </List>
                   </span>
                   {/*<AlgoDisplay
@@ -131,10 +142,10 @@ export default function Description({
         </div>
       ) : (
         <div>
-          <div className='title'>
+          <div className="title">
             <span style={{ display: "flex", justifyContent: "space-between" }}>
               <span style={{ cursor: "pointer" }} onClick={() => setChoose(1)}>
-                <TiArrowLeftThick size={18} color='red' />
+                <TiArrowLeftThick size={18} color="red" />
               </span>
 
               <h5>{selectedAlgo.name}</h5>
@@ -144,55 +155,58 @@ export default function Description({
                   closecallback(0);
                 }}
                 size={15}
-                color='red'
+                color="red"
               />
             </span>
           </div>
           <div style={{ overflowY: "auto", height: "80vh" }}>
-            <Accordion defaultActiveKey='0'>
-              <Card className='cardBody'>
-                <Card.Header className='cardHeader'>
+            <Accordion defaultActiveKey="0">
+              <Card className="cardBody">
+                <Card.Header className="cardHeader">
                   <Accordion.Toggle
                     as={Button}
-                    variant='link'
-                    eventKey='0'
-                    style={{ cursor: "pointer" }}>
+                    variant="link"
+                    eventKey="0"
+                    style={{ cursor: "pointer" }}
+                  >
                     Description
                   </Accordion.Toggle>
                 </Card.Header>
-                <Accordion.Collapse eventKey='0'>
+                <Accordion.Collapse eventKey="0">
                   <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
                     {selectedAlgo.description}
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
-              <Card className='cardBody'>
-                <Card.Header className='cardHeader'>
+              <Card className="cardBody">
+                <Card.Header className="cardHeader">
                   <Accordion.Toggle
                     as={Button}
-                    variant='link'
-                    eventKey='1'
-                    style={{ cursor: "pointer" }}>
+                    variant="link"
+                    eventKey="1"
+                    style={{ cursor: "pointer" }}
+                  >
                     Where To Use
                   </Accordion.Toggle>
                 </Card.Header>
-                <Accordion.Collapse eventKey='1'>
+                <Accordion.Collapse eventKey="1">
                   <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
                     {selectedAlgo.usage}
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
-              <Card className='cardBody'>
-                <Card.Header className='cardHeader'>
+              <Card className="cardBody">
+                <Card.Header className="cardHeader">
                   <Accordion.Toggle
                     as={Button}
-                    variant='link'
-                    eventKey='2'
-                    style={{ cursor: "pointer" }}>
+                    variant="link"
+                    eventKey="2"
+                    style={{ cursor: "pointer" }}
+                  >
                     Time & Space Complexity
                   </Accordion.Toggle>
                 </Card.Header>
-                <Accordion.Collapse eventKey='2'>
+                <Accordion.Collapse eventKey="2">
                   <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
                     Space Complexity : {selectedAlgo.spacecomplexity}
                     <br />
@@ -200,19 +214,28 @@ export default function Description({
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
-              <Card className='cardBody'>
-                <Card.Header className='cardHeader'>
+              <Card className="cardBody">
+                <Card.Header className="cardHeader">
                   <Accordion.Toggle
                     as={Button}
-                    variant='link'
-                    eventKey='3'
-                    style={{ cursor: "pointer" }}>
-                    Import code
+                    variant="link"
+                    eventKey="3"
+                    style={{ cursor: "pointer" }}
+                  >
+                    View & Import code
                   </Accordion.Toggle>
                 </Card.Header>
-                <Accordion.Collapse eventKey='3'>
+                <Accordion.Collapse eventKey="3">
                   <Card.Body style={{ height: "42vh", overflowY: "auto" }}>
-                    {selectedAlgo.code}
+                    <pre style={{ color: "white", paddingBottom: "20px" }}>
+                      {selectedAlgo.code}
+                    </pre>
+                    <Button
+                      variant="success"
+                      onClick={() => onAlgoClick(selectedAlgo, selectedId)}
+                    >
+                      Import Code
+                    </Button>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>

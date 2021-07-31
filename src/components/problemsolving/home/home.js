@@ -13,11 +13,11 @@ import Filler from "./FIller";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 
-class Home extends Component{
-  constructor(){
+class Home extends Component {
+  constructor() {
     super();
-    this.state={
-      quota : [
+    this.state = {
+      quota: [
         `All our dreams can come true, if we have the courage to pursue them. – Walt Disney`,
         `The secret of getting ahead is getting started. – Mark Twain`,
         `Don’t limit yourself. Many people limit themselves to what they think they can do. You can go as far as your mind lets you. What you believe, remember, you can achieve. – Mary Kay Ash`,
@@ -32,135 +32,174 @@ class Home extends Component{
         `Whatever you are, be a good one. - Abraham Lincoln`,
         `If we have the attitude that it’s going to be a great day it usually is. – Catherine Pulsifier`,
       ],
-      fillup:[],
-      Close:1,
-      algo:[],
-      PositiveSnackBarOpen:false,
-      NegativeSnackBarOpen:false,
-      message:"",
-      selectedAlgoCode:"",
-    }
-    this.handleChange=this.handleChange.bind(this);
-    this.handleNegativeSnackbarClose=this.handleNegativeSnackbarClose.bind(this);
-    this.handlePositiveSnackbarClose=this.handlePositiveSnackbarClose.bind(this);
-    this.getAlgoWithUserInput=this.getAlgoWithUserInput.bind(this);
-    this.getSelectedAlgo=this.getSelectedAlgo.bind(this);
-  } 
+      fillup: [],
+      Close: 1,
+      algo: [],
+      PositiveSnackBarOpen: false,
+      NegativeSnackBarOpen: false,
+      message: "",
+      selectedAlgoCode: "",
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleNegativeSnackbarClose = this.handleNegativeSnackbarClose.bind(
+      this
+    );
+    this.handlePositiveSnackbarClose = this.handlePositiveSnackbarClose.bind(
+      this
+    );
+    this.getAlgoWithUserInput = this.getAlgoWithUserInput.bind(this);
+    this.getSelectedAlgo = this.getSelectedAlgo.bind(this);
+  }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
-      fillup:[
-        { id: 0, msg: this.state.quota[Math.floor(Math.random() * 13 + 1)], who: "bot" },
+      fillup: [
+        {
+          id: 0,
+          msg: this.state.quota[Math.floor(Math.random() * 13 + 1)],
+          who: "bot",
+        },
         { id: 1, msg: "Let's us Start coding!", who: "bot" },
         { id: 2, msg: "Hello ", who: "user" },
-      ]
-    })
+      ],
+    });
   }
 
   handleNegativeSnackbarClose = () => {
     this.setState({
-      NegativeSnackBarOpen:false,
-      message:""
-    })
-
+      NegativeSnackBarOpen: false,
+      message: "",
+    });
   };
 
   handlePositiveSnackbarClose = () => {
     this.state({
-      PositiveSnackBarOpen:false,
-      message:""
-    })
+      PositiveSnackBarOpen: false,
+      message: "",
+    });
   };
 
-
-  getAlgoWithUserInput=async(params)=>{
+  getAlgoWithUserInput = async (params) => {
     const url = `https://application-wingman.herokuapp.com/api/getAlgoSearch/?search=${params}`;
 
-      await fetch(url, {
-        method: "GET",
-      })
-      .then((res) => res.json())
-        .then((response)=>{
-          console.log(response);
-          this.setState({
-            algo:response.data
-          })
-        })
-        .catch((error) => {
-          console.error("Error", error);
-          this.setState({
-            message:"Error in retriving Algorithm",
-            NegativeSnackBarOpen:true
-          })
-        })
-  }
-
-
-  getSelectedAlgo=(params)=>{
-    this.setState({
-      selectedAlgoCode:params.code
+    await fetch(url, {
+      method: "GET",
     })
-      console.log(params.code);
-    }
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          algo: response.data,
+        });
+        if (response.data.length > 0) {
+          this.setState({
+            fillup: [
+              ...this.state.fillup,
+              {
+                id: this.state.fillup[this.state.fillup.length - 1].id + 1,
+                msg: "Algorithm Successfully retrieved",
+                who: "bot",
+              },
+            ],
+          });
+        } else {
+          this.setState({
+            fillup: [
+              ...this.state.fillup,
+              {
+                id: this.state.fillup[this.state.fillup.length - 1].id + 1,
+                msg: "whops! No Algorithm found\nCan you contribute",
+                who: "bot",
+              },
+            ],
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error", error);
+        this.setState({
+          fillup: [
+            ...this.state.fillup,
+            {
+              id: this.state.fillup[this.state.fillup.length - 1].id + 1,
+              msg: "Something Went Wrong!\nError in retrieving Algorithm",
+              who: "bot",
+            },
+          ],
+        });
+        this.setState({
+          message: "Error in retrieving Algorithm",
+          NegativeSnackBarOpen: true,
+        });
+      });
+  };
+
+  getSelectedAlgo = (params) => {
+    this.setState({
+      selectedAlgoCode: params.code,
+    });
+    console.log(params.code);
+  };
 
   // chat histery
 
-handleChange=(newValue,userInput)=> {
-  this.setState({
-    fillup:newValue
-  })
+  handleChange = (newValue, userInput) => {
+    this.setState({
+      fillup: newValue,
+    });
     this.getAlgoWithUserInput(userInput);
-    console.log("new",userInput);
-  }
-  render(){
+    console.log("new", userInput);
+  };
+  render() {
     console.log("rendering");
-  return (
-    <div>
-      <div className='home'>
-          <div className='sidebar ' style={{    background: "#000b18"}}>
+    return (
+      <div>
+        <div className="home">
+          <div className="sidebar " style={{ background: "#000b18" }}>
             <HeaderBot />
             <Chart val={this.state.fillup} onChange={this.handleChange} />
           </div>
-        <div className='content'>
-          <Content algoCode={this.state.selectedAlgoCode}/>
+          <div className="content">
+            <Content algoCode={this.state.selectedAlgoCode} />
+          </div>
+          {this.state.Close === 1 ? (
+            <ResizePanel direction="w" style={{ flexGrow: "1" }}>
+              <div className="description">
+                {this.state.algo.length === 0 ? (
+                  <Filler message="No algo availabe. Try searching with different keywork" />
+                ) : (
+                  <Description
+                    getSelectedAlgo={this.getSelectedAlgo}
+                    closecallback={(cc) => {
+                      this.setState({ close: cc });
+                    }}
+                    algoData={this.state.algo}
+                  />
+                )}
+              </div>
+            </ResizePanel>
+          ) : (
+            <div></div>
+          )}
         </div>
-        {this.state.Close === 1 ? (
-          <ResizePanel direction='w' style={{ flexGrow: "1" }}>
-            <div className='description'>
-              {this.state.algo.length === 0? <Filler message="No algo availabe. Try searching with different keywork"/>:
-              <Description
-                getSelectedAlgo={this.getSelectedAlgo}
 
-                closecallback={(cc) => {
-                  this.setState({close:cc});
-                }}
-                algoData={this.state.algo}
-              />
-              }
-            </div>
-          </ResizePanel>
-        ) : (
-          <div></div>
-        )}
+        <Snackbar
+          open={this.state.NegativeSnackBarOpen}
+          autoHideDuration={6000}
+          onClose={this.handleNegativeSnackbarClose}
+        >
+          <Alert severity="error">{this.state.message}</Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={this.state.PositiveSnackBarOpen}
+          autoHideDuration={6000}
+          onClose={this.handlePositiveSnackbarClose}
+        >
+          <Alert severity="success">{this.state.message}</Alert>
+        </Snackbar>
       </div>
-
-      
-      <Snackbar
-        open={this.state.NegativeSnackBarOpen}
-        autoHideDuration={6000}
-        onClose={this.handleNegativeSnackbarClose}>
-        <Alert severity='error'>{this.state.message}</Alert>
-      </Snackbar>
-
-      <Snackbar
-        open={this.state.PositiveSnackBarOpen}
-        autoHideDuration={6000}
-        onClose={this.handlePositiveSnackbarClose}>
-        <Alert severity='success'>{this.state.message}</Alert>
-      </Snackbar>
-
-    </div>
-  );
-}
+    );
+  }
 }
 export default Home;
