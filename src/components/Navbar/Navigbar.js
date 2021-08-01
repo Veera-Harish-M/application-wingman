@@ -6,7 +6,6 @@ import {
   Modal,
   Button,
   InputGroup,
-  Form,
   FormControl,
   Alert,
 } from "react-bootstrap";
@@ -44,35 +43,37 @@ export default function Navigbar({
   //store download data
   const [dataPrev, setDataPrev] = React.useState([]);
 
-  useEffect(async () => {
-    var AuthDataProfilePic = localStorage.getItem("AuthDataProfilePic");
-    var AuthDataName = localStorage.getItem("AuthDataName");
-    var AuthDataId = localStorage.getItem("AuthDataId");
-    if (AuthDataProfilePic && AuthDataName) {
-      setUsername(AuthDataName);
-      setProfilePic(AuthDataProfilePic);
-    }
+  useEffect(() => {
+    (async () => {
+      var AuthDataProfilePic = localStorage.getItem("AuthDataProfilePic");
+      var AuthDataName = localStorage.getItem("AuthDataName");
+      var AuthDataId = localStorage.getItem("AuthDataId");
+      if (AuthDataProfilePic && AuthDataName) {
+        setUsername(AuthDataName);
+        setProfilePic(AuthDataProfilePic);
+      }
 
-    if (AuthDataId) {
-      const url = `https://application-wingman.herokuapp.com/api/getFiles/?id=${AuthDataId}`;
+      if (AuthDataId) {
+        const url = `https://application-wingman.herokuapp.com/api/getFiles/?id=${AuthDataId}`;
 
-      await fetch(url, {
-        method: "GET",
-      })
-        .then((res) => res.json())
-        .then((response) => {
-          console.log(response.data);
-          setDataPrev(response.data);
+        await fetch(url, {
+          method: "GET",
         })
-        .catch((error) => {
-          console.error("Error", error);
+          .then((res) => res.json())
+          .then((response) => {
+            console.log(response.data);
+            setDataPrev(response.data);
+          })
+          .catch((error) => {
+            console.error("Error", error);
 
-          this.setState({
-            message: "Error in retrieving Algorithm",
-            NegativeSnackBarOpen: true,
+            this.setState({
+              message: "Error in retrieving Algorithm",
+              NegativeSnackBarOpen: true,
+            });
           });
-        });
-    }
+      }
+    })();
   }, []);
 
   const handleUploadSection = () => {
@@ -206,7 +207,7 @@ export default function Navigbar({
               size={20}
               color="white"
               onClick={() => {
-                if (fileId == "") {
+                if (fileId === "") {
                   //send update
                   setUploadModal(true);
                 } else {

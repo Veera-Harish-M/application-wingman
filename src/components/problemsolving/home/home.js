@@ -201,38 +201,36 @@ class Home extends Component {
   };
 
   handleUpdate = async () => {
-    {
-      var AuthDataId = localStorage.getItem("AuthDataId");
-      const url = `https://application-wingman.herokuapp.com/api/updateFile?fileId=${this.state.fileId}`;
+    var AuthDataId = localStorage.getItem("AuthDataId");
+    const url = `https://application-wingman.herokuapp.com/api/updateFile?fileId=${this.state.fileId}`;
 
-      var data = {
-        fileName: this.state.fileName,
-        code: this.state.fileCode,
-        userId: AuthDataId,
-      };
-      await fetch(url, {
-        method: "PUT",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => res.json())
-        .then((response) => {
-          console.log(response.data);
-          // setDataPrev(response.data);
-          this.setState({
-            message: "File Updated Successfully",
-            PositiveSnackBarOpen: true,
-          });
-        })
-        .catch((error) => {
-          console.error("Error", error);
-
-          this.setState({
-            message: "Error in updating Algorithm",
-            NegativeSnackBarOpen: true,
-          });
+    var data = {
+      fileName: this.state.fileName,
+      code: this.state.fileCode,
+      userId: AuthDataId,
+    };
+    await fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response.data);
+        // setDataPrev(response.data);
+        this.setState({
+          message: "File Updated Successfully",
+          PositiveSnackBarOpen: true,
         });
-    }
+      })
+      .catch((error) => {
+        console.error("Error", error);
+
+        this.setState({
+          message: "Error in updating Algorithm",
+          NegativeSnackBarOpen: true,
+        });
+      });
   };
 
   handleChangesInCode = (code) => {

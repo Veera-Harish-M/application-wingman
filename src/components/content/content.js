@@ -53,6 +53,7 @@ export default function Content({ algoCode, codesOrigin, onChangeCode }) {
     console.log("code origin coming");
     console.log(codesOrigin);
     handleEditorChange(codesOrigin);
+    // eslint-disable-next-line
   }, [codesOrigin]);
 
   function handleEditorChange(value) {
