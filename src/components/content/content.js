@@ -37,30 +37,35 @@
 import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 
-export default function Content({ algoCode }) {
+export default function Content({ algoCode, codesOrigin, onChangeCode }) {
   const [language] = useState("python");
-  const [code, Setcode] = useState("#hello");
+  const [code, Setcode] = useState(codesOrigin);
   console.log("outside", algoCode);
 
   useEffect(() => {
-    console.log("inside", algoCode);
+    // console.log("inside", algoCode);
     let asp = code + algoCode;
-
-    // Setcode(asp);
     handleEditorChange(asp);
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
   }, [algoCode]);
+
+  useEffect(() => {
+    console.log("code origin coming");
+    console.log(codesOrigin);
+    handleEditorChange(codesOrigin);
+  }, [codesOrigin]);
 
   function handleEditorChange(value) {
     console.log(value);
+    onChangeCode(value);
     Setcode(value);
     console.log("here is the current model value:", code);
   }
   return (
     <div>
       <Editor
-        height='91vh'
-        theme='vs-dark'
+        height="91vh"
+        theme="vs-dark"
         defaultLanguage={language}
         //defaultValue={code}
         value={code}

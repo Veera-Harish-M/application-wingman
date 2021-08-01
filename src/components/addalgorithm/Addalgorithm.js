@@ -69,7 +69,7 @@ export default function Addalgorithm() {
     ) {
       //send received data from user to our server
       // const url = "https://application-wingman.herokuapp.com/api/addAlgo";
-      const url = "http://localhost:8000/api/addAlgo";
+      const url = "https://application-wingman.herokuapp.com/api/addAlgo";
       console.log("hai", resultCode, typeof resultCode);
       //body of api
       var dataSend = {

@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { FaFacebook } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import "./signup.css";
+import { useHistory } from "react-router-dom";
 
 export default function Newreg() {
+  const history = useHistory();
   const [Register, setRegister] = useState({
     email: "",
     password: "",
@@ -23,13 +30,158 @@ export default function Newreg() {
     setMessage("");
   };
 
-  onsubmit=(e)=>{
+  const responseFacebook = (responseFacebook) => {
+    setMessage("");
+    console.log(responseFacebook);
+    //if received positive response from facebook
+    if (responseFacebook.accessToken) {
+      //access data from facebook response and sending to our server
+      const url = "https://application-wingman.herokuapp.com/api/socialsignup";
+
+      //body of api
+      var data = {
+        name: responseFacebook.name,
+        email: responseFacebook.email,
+        expiry: responseFacebook.expiresIn,
+        profilepic: responseFacebook.picture.data.url,
+      };
+
+      //send fb access token as bearer token
+      var bearer = "Bearer " + responseFacebook.accessToken;
+
+      //post request with bearer token in header and json body details
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: bearer,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        //receive response as json
+        .then((res) => res.json())
+
+        //catch fetch errors => could'nt reach api
+        .catch((error) => {
+          setMessage("Something Went Wrong!");
+          setNegativeSnackBarOpen(true);
+          console.error("Error", error);
+        })
+
+        //accessing received response
+        .then((response) => {
+          if (response) {
+            if (response.status === "Error") {
+              //set error message to state error
+              setMessage(response.message);
+              setNegativeSnackBarOpen(true);
+            } else {
+              setMessage(response.message);
+              console.log(response);
+              setPositiveSnackBarOpen(true);
+              localStorage.setItem(
+                "AuthDataProfilePic",
+                response.userData.profilepic
+              );
+
+              localStorage.setItem("AuthDataName", response.userData.name);
+              localStorage.setItem("AuthDataToken", response.token);
+              localStorage.setItem("AuthDataEmail", response.userData.email);
+              localStorage.setItem("AuthDataId", response.userData._id);
+              history.push("/");
+            }
+          }
+        });
+    } else {
+      //received negative message from facebook auth api
+      setMessage("Something Went Wrong");
+      setNegativeSnackBarOpen(true);
+      console.log(responseFacebook);
+    }
+  };
+
+  const NegativeResponseGoogle = (responseGoogle) => {
+    console.log("neagtive:", responseGoogle);
+    setMessage(responseGoogle.error);
+    setNegativeSnackBarOpen(true);
+  };
+
+  const PositiveResponseGoogle = (responseGoogle) => {
+    //clearing previous error state
+    setMessage("");
+
+    //if received positive response from google Oauth api
+    if (responseGoogle.googleId) {
+      //access data from google response and sending to our server
+      const url = "https://application-wingman.herokuapp.com/api/socialsignup";
+
+      console.log(responseGoogle);
+      //body of api
+      var data = {
+        email: responseGoogle.profileObj.email,
+        expiry: responseGoogle.tokenObj.expires_in,
+        name: responseGoogle.profileObj.name,
+        profilepic: responseGoogle.profileObj.imageUrl,
+      };
+
+      //send google access token as bearer token
+      var bearer = "Bearer " + responseGoogle.tokenObj.access_token;
+
+      //post request with bearer token in header and json body details
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: bearer,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        //receive response as json
+        .then((res) => res.json())
+
+        //catch fetch errors => could'nt reach api
+        .catch((error) => {
+          //set error message to state error
+          setMessage("Something Went Wrong!");
+          setNegativeSnackBarOpen(true);
+          console.error("Error", error);
+        })
+
+        //accessing received response
+        .then((response) => {
+          if (response) {
+            if (response.status === "Error") {
+              //set error message to state error
+              setMessage(response.message);
+              setNegativeSnackBarOpen(true);
+            } else {
+              setMessage(response.message);
+              setPositiveSnackBarOpen(true);
+
+              localStorage.setItem(
+                "AuthDataProfilePic",
+                response.userData.profilepic
+              );
+
+              localStorage.setItem("AuthDataName", response.userData.name);
+              localStorage.setItem("AuthDataToken", response.token);
+              localStorage.setItem("AuthDataEmail", response.userData.email);
+              localStorage.setItem("AuthDataId", response.userData._id);
+              history.push("/");
+              console.log("Success:", response);
+            }
+          }
+        });
+    }
+  };
+
+  onsubmit = (e) => {
     console.log("sdfsdS");
     e.preventDefault();
     //clearing previous error state
     setMessage("");
 
-    if (Register.password === Register.repassword){
+    if (Register.password === Register.repassword) {
       //send received data from user to our server
       const url = "https://application-wingman.herokuapp.com/api/signup";
 
@@ -38,7 +190,8 @@ export default function Newreg() {
         name: Register.email,
         email: Register.email,
         password: Register.password,
-        profilepic: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
+        profilepic:
+          "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
       };
       console.log(data);
 
@@ -71,25 +224,34 @@ export default function Newreg() {
               //sending response to function =>authentication() in Navbar.js
               console.log("Success:", response);
               setMessage(response.message);
+              // localStorage.setItem(
+              //   "AuthDataProfilePic",
+              //   response.userData.profilepic
+              // );
+
+              // localStorage.setItem("AuthDataName", response.userData.name);
+              // localStorage.setItem("AuthDataToken", response.token);
+              // localStorage.setItem("AuthDataEmail", response.userData.email);
+              // localStorage.setItem("AuthDataId", response.userData._id);
               setPositiveSnackBarOpen(true);
             }
           }
         });
-    }else{
+    } else {
       setMessage("password and confirm password should match");
       setNegativeSnackBarOpen(true);
     }
-  }
+  };
 
   return (
-    <div className='signin'>
-      <div className='box'>
+    <div className="signup">
+      <div className="box">
         <h1>Registation</h1>
         <div>
           <input
-            type='text'
+            type="text"
             required
-            placeholder='Enter Email id'
+            placeholder="Enter Email id"
             value={Register.email}
             onChange={(e) =>
               setRegister({ ...Register, email: e.target.value })
@@ -101,9 +263,9 @@ export default function Newreg() {
         </div>
         <div>
           <input
-            type='password'
+            type="password"
             required
-            placeholder='Password'
+            placeholder="Password"
             value={Register.password}
             onChange={(e) =>
               setRegister({ ...Register, password: e.target.value })
@@ -112,9 +274,9 @@ export default function Newreg() {
         </div>
         <div>
           <input
-            type='password'
+            type="password"
             required
-            placeholder='Re-Password'
+            placeholder="Re-Password"
             value={Register.repassword}
             onChange={(e) => {
               setRegister({ ...Register, repassword: e.target.value });
@@ -127,26 +289,78 @@ export default function Newreg() {
             }}
           />
         </div>
-        <input type='button' onClick={onsubmit} value='create profile' />
+        <input type="button" onClick={onsubmit} value="create profile" />
+
+        <div>
+          <hr />
+          <div
+            style={{
+              // alignItems: "center",
+              //flexDirection: "column",
+              justifyContent: "space-evenly",
+              marginBottom: "10px",
+              display: "flex",
+              cursor: "pointer",
+            }}
+          >
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              render={(renderProps) => (
+                <FcGoogle
+                  size={25}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                />
+              )}
+              buttonText="Login"
+              onSuccess={PositiveResponseGoogle}
+              onFailure={NegativeResponseGoogle}
+            />
+            <FacebookLogin
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+              callback={responseFacebook}
+              fields="name,email,picture"
+              render={(renderProps) => (
+                <FaFacebook
+                  size={25}
+                  onClick={renderProps.onClick}
+                  style={{ marginRight: "16px" }}
+                  color="#18009a"
+                />
+              )}
+            />
+          </div>
+          <span
+            className="forgot"
+            style={{
+              marginTop: "40px",
+              cursor: "pointer",
+              color: "#FFFFFF",
+            }}
+            onClick={() => history.push("/session/forget-password")}
+          >
+            Forgot password ?
+          </span>
+        </div>
       </div>
       <Snackbar
         open={NegativeSnackBarOpen}
         autoHideDuration={6000}
-        onClose={handleNegativeSnackbarClose}>
-        <Alert severity='error'>{message}</Alert>
+        onClose={handleNegativeSnackbarClose}
+      >
+        <Alert severity="error">{message}</Alert>
       </Snackbar>
 
       <Snackbar
         open={PositiveSnackBarOpen}
         autoHideDuration={6000}
-        onClose={handlePositiveSnackbarClose}>
-        <Alert severity='success'>{message}</Alert>
+        onClose={handlePositiveSnackbarClose}
+      >
+        <Alert severity="success">{message}</Alert>
       </Snackbar>
     </div>
   );
 }
-
-
 
 // import React, { useState } from "react";
 // import Navj from "./Navj";

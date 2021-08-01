@@ -7,8 +7,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { VscGithub } from "react-icons/vsc";
-import { ImLinkedin } from "react-icons/im";
 
 function Login() {
   const history = useHistory();
@@ -75,6 +73,16 @@ function Login() {
               setMessage(response.message);
               console.log(response);
               setPositiveSnackBarOpen(true);
+              localStorage.setItem(
+                "AuthDataProfilePic",
+                response.userData.profilepic
+              );
+
+              localStorage.setItem("AuthDataName", response.userData.name);
+              localStorage.setItem("AuthDataToken", response.token);
+              localStorage.setItem("AuthDataEmail", response.userData.email);
+              localStorage.setItem("AuthDataId", response.userData._id);
+
               history.push("/");
             }
           }
@@ -142,8 +150,17 @@ function Login() {
             } else {
               setMessage(response.message);
               setPositiveSnackBarOpen(true);
+              localStorage.setItem(
+                "AuthDataProfilePic",
+                response.userData.profilepic
+              );
+
+              localStorage.setItem("AuthDataName", response.userData.name);
+              localStorage.setItem("AuthDataToken", response.token);
+              localStorage.setItem("AuthDataEmail", response.userData.email);
+              localStorage.setItem("AuthDataId", response.userData._id);
+              history.push("/");
               console.log("Success:", response);
-          
             }
           }
         });
@@ -193,6 +210,15 @@ function Login() {
           } else {
             //sending response to function =>authentication() in Navbar.js
             console.log("Success:", response);
+            localStorage.setItem(
+              "AuthDataProfilePic",
+              response.userData.profilepic
+            );
+
+            localStorage.setItem("AuthDataName", response.userData.name);
+            localStorage.setItem("AuthDataToken", response.token);
+            localStorage.setItem("AuthDataEmail", response.userData.email);
+            localStorage.setItem("AuthDataId", response.userData._id);
             history.push("/");
             setMessage(response.message);
             setPositiveSnackBarOpen(true);
@@ -203,39 +229,41 @@ function Login() {
   };
 
   return (
-    <div className='signin'>
-      <form className='box'>
+    <div className="signin">
+      <form className="box">
         <h1>Login</h1>
         <div>
           <input
-            type='text'
+            type="text"
             required
-            placeholder='Enter Username or Email id'
+            placeholder="Enter Username or Email id"
             value={login.username}
             onChange={(e) => setLogin({ ...login, username: e.target.value })}
           />
         </div>
         <div>
           <input
-            type='password'
+            type="password"
             required
-            placeholder='Password'
+            placeholder="Password"
             value={login.password}
             onChange={(e) => setLogin({ ...login, password: e.target.value })}
           />
         </div>
         <div></div>
-        <input type='button' value='submit' onClick={(e) => onSignin(e)} />
+        <input type="button" value="submit" onClick={(e) => onSignin(e)} />
         <div>
           <hr />
           <div
             style={{
               // alignItems: "center",
               //flexDirection: "column",
-              justifyContent: "space-around",
+              justifyContent: "space-evenly",
+              marginBottom: "10px",
               display: "flex",
-              cursor:"pointer"
-            }}>
+              cursor: "pointer",
+            }}
+          >
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={(renderProps) => (
@@ -245,35 +273,34 @@ function Login() {
                   disabled={renderProps.disabled}
                 />
               )}
-              buttonText='Login'
+              buttonText="Login"
               onSuccess={PositiveResponseGoogle}
               onFailure={NegativeResponseGoogle}
             />
             <FacebookLogin
               appId={process.env.REACT_APP_FACEBOOK_APP_ID}
               callback={responseFacebook}
-              fields='name,email,picture'
+              fields="name,email,picture"
               render={(renderProps) => (
                 <FaFacebook
                   size={25}
                   onClick={renderProps.onClick}
                   style={{ marginRight: "16px" }}
-                  color='#18009a'
+                  color="#18009a"
                 />
               )}
             />
-            <VscGithub size={25} color={"black"} />
-            <ImLinkedin size={25} color={"#0e76a8"} />
           </div>
           <span
-            className='forgot'
+            className="forgot"
             style={{
               marginTop: "40px",
               cursor: "pointer",
               color: "#FFFFFF",
             }}
-            onClick={() => history.push("/session/forget-password")}>
-            Forgot password ?
+            onClick={() => history.push("/session/forget-password")}
+          >
+            <u>Forgot password ?</u>
           </span>
         </div>
       </form>
@@ -281,15 +308,17 @@ function Login() {
       <Snackbar
         open={NegativeSnackBarOpen}
         autoHideDuration={6000}
-        onClose={handleNegativeSnackbarClose}>
-        <Alert severity='error'>{message}</Alert>
+        onClose={handleNegativeSnackbarClose}
+      >
+        <Alert severity="error">{message}</Alert>
       </Snackbar>
 
       <Snackbar
         open={PositiveSnackBarOpen}
         autoHideDuration={6000}
-        onClose={handlePositiveSnackbarClose}>
-        <Alert severity='success'>{message}</Alert>
+        onClose={handlePositiveSnackbarClose}
+      >
+        <Alert severity="success">{message}</Alert>
       </Snackbar>
     </div>
   );

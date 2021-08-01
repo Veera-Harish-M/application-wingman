@@ -12,11 +12,15 @@ import "./home.css";
 import Filler from "./FIller";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import Navigbar from "../../Navbar/Navigbar";
 
 class Home extends Component {
   constructor() {
     super();
     this.state = {
+      fileCode: "#Happy Coding",
+      fileId: "",
+      fileName: "",
       quota: [
         `All our dreams can come true, if we have the courage to pursue them. – Walt Disney`,
         `The secret of getting ahead is getting started. – Mark Twain`,
@@ -49,6 +53,10 @@ class Home extends Component {
     );
     this.getAlgoWithUserInput = this.getAlgoWithUserInput.bind(this);
     this.getSelectedAlgo = this.getSelectedAlgo.bind(this);
+    this.handleChangesInCode = this.handleChangesInCode.bind(this);
+    this.handleChangesInName = this.handleChangesInName.bind(this);
+    this.handleFileSetTo = this.handleFileSetTo.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -73,7 +81,7 @@ class Home extends Component {
   };
 
   handlePositiveSnackbarClose = () => {
-    this.state({
+    this.setState({
       PositiveSnackBarOpen: false,
       message: "",
     });
@@ -150,55 +158,158 @@ class Home extends Component {
     this.getAlgoWithUserInput(userInput);
     console.log("new", userInput);
   };
+  handleChangesInName = async (name) => {
+    console.log("name of file coming", name);
+    console.log("code", this.state.fileCode);
+
+    this.setState({
+      fileName: name,
+    });
+    //send to database
+
+    var AuthDataId = localStorage.getItem("AuthDataId");
+    const url = `https://application-wingman.herokuapp.com/api/saveUserFiles`;
+
+    var data = {
+      fileName: name,
+      code: this.state.fileCode,
+      userId: AuthDataId,
+    };
+    await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response.data);
+        // setDataPrev(response.data);
+        this.setState({
+          message: "File Saved Successfully",
+          PositiveSnackBarOpen: true,
+          fileId: response.data.id,
+        });
+      })
+      .catch((error) => {
+        console.error("Error", error);
+
+        this.setState({
+          message: "Error in saving Algorithm",
+          NegativeSnackBarOpen: true,
+        });
+      });
+  };
+
+  handleUpdate = async () => {
+    {
+      var AuthDataId = localStorage.getItem("AuthDataId");
+      const url = `https://application-wingman.herokuapp.com/api/updateFile?fileId=${this.state.fileId}`;
+
+      var data = {
+        fileName: this.state.fileName,
+        code: this.state.fileCode,
+        userId: AuthDataId,
+      };
+      await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response.data);
+          // setDataPrev(response.data);
+          this.setState({
+            message: "File Updated Successfully",
+            PositiveSnackBarOpen: true,
+          });
+        })
+        .catch((error) => {
+          console.error("Error", error);
+
+          this.setState({
+            message: "Error in updating Algorithm",
+            NegativeSnackBarOpen: true,
+          });
+        });
+    }
+  };
+
+  handleChangesInCode = (code) => {
+    this.setState({ fileCode: code });
+  };
+  handleFileSetTo = (value) => {
+    // console.log("coming to home", value);
+
+    this.setState({
+      fileId: value._id,
+      fileName: value.fileName,
+      fileCode: value.code,
+    });
+  };
   render() {
     console.log("rendering");
+
+    console.log(this.state.fileId);
     return (
-      <div>
-        <div className="home">
-          <div className="sidebar " style={{ background: "#000b18" }}>
-            <HeaderBot />
-            <Chart val={this.state.fillup} onChange={this.handleChange} />
+      <>
+        <Navigbar
+          onChangeName={this.handleChangesInName}
+          onChangeIncomingFile={this.handleFileSetTo}
+          fileId={this.state.fileId}
+          onUpdate={this.handleUpdate}
+        />
+        <div>
+          <div className="home">
+            <div className="sidebar " style={{ background: "#000b18" }}>
+              <HeaderBot />
+              <Chart val={this.state.fillup} onChange={this.handleChange} />
+            </div>
+            <div className="content">
+              <Content
+                algoCode={this.state.selectedAlgoCode}
+                codesOrigin={this.state.fileCode}
+                onChangeCode={this.handleChangesInCode}
+              />
+            </div>
+            {this.state.Close === 1 ? (
+              <ResizePanel direction="w" style={{ flexGrow: "1" }}>
+                <div className="description">
+                  {this.state.algo.length === 0 ? (
+                    <Filler message="No algo availabe. Try searching with different keywork" />
+                  ) : (
+                    <Description
+                      getSelectedAlgo={this.getSelectedAlgo}
+                      closecallback={(cc) => {
+                        this.setState({ close: cc });
+                      }}
+                      algoData={this.state.algo}
+                    />
+                  )}
+                </div>
+              </ResizePanel>
+            ) : (
+              <div></div>
+            )}
           </div>
-          <div className="content">
-            <Content algoCode={this.state.selectedAlgoCode} />
-          </div>
-          {this.state.Close === 1 ? (
-            <ResizePanel direction="w" style={{ flexGrow: "1" }}>
-              <div className="description">
-                {this.state.algo.length === 0 ? (
-                  <Filler message="No algo availabe. Try searching with different keywork" />
-                ) : (
-                  <Description
-                    getSelectedAlgo={this.getSelectedAlgo}
-                    closecallback={(cc) => {
-                      this.setState({ close: cc });
-                    }}
-                    algoData={this.state.algo}
-                  />
-                )}
-              </div>
-            </ResizePanel>
-          ) : (
-            <div></div>
-          )}
+
+          <Snackbar
+            open={this.state.NegativeSnackBarOpen}
+            autoHideDuration={6000}
+            onClose={this.handleNegativeSnackbarClose}
+          >
+            <Alert severity="error">{this.state.message}</Alert>
+          </Snackbar>
+
+          <Snackbar
+            open={this.state.PositiveSnackBarOpen}
+            autoHideDuration={6000}
+            onClose={this.handlePositiveSnackbarClose}
+          >
+            <Alert severity="success">{this.state.message}</Alert>
+          </Snackbar>
         </div>
-
-        <Snackbar
-          open={this.state.NegativeSnackBarOpen}
-          autoHideDuration={6000}
-          onClose={this.handleNegativeSnackbarClose}
-        >
-          <Alert severity="error">{this.state.message}</Alert>
-        </Snackbar>
-
-        <Snackbar
-          open={this.state.PositiveSnackBarOpen}
-          autoHideDuration={6000}
-          onClose={this.handlePositiveSnackbarClose}
-        >
-          <Alert severity="success">{this.state.message}</Alert>
-        </Snackbar>
-      </div>
+      </>
     );
   }
 }
