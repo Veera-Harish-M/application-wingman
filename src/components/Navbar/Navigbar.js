@@ -54,7 +54,7 @@ export default function Navigbar({
       }
 
       if (AuthDataId) {
-        const url = `https://application-wingman.herokuapp.com/api/getFiles/?id=${AuthDataId}`;
+        const url = `https://application-wingman.onrender.com/api/getFiles/?id=${AuthDataId}`;
 
         await fetch(url, {
           method: "GET",

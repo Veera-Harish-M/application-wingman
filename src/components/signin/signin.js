@@ -32,7 +32,7 @@ function Login() {
     //if received positive response from facebook
     if (responseFacebook.accessToken) {
       //access data from facebook response and sending to our server
-      const url = "https://application-wingman.herokuapp.com/api/socialsignin";
+      const url = "https://application-wingman.onrender.com/api/socialsignin";
 
       //body of api
       var data = {
@@ -108,7 +108,7 @@ function Login() {
     //if received positive response from google Oauth api
     if (responseGoogle.googleId) {
       //access data from google response and sending to our server
-      const url = "https://application-wingman.herokuapp.com/api/socialsignin";
+      const url = "https://application-wingman.onrender.com/api/socialsignin";
 
       console.log(responseGoogle);
       //body of api
@@ -173,7 +173,7 @@ function Login() {
     setMessage("");
 
     //send received data from user to our server
-    const url = "https://application-wingman.herokuapp.com/api/signin";
+    const url = "https://application-wingman.onrender.com/api/signin";
 
     //body of api
     var data = {

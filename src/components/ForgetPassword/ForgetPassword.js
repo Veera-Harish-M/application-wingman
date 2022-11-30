@@ -52,7 +52,7 @@ class ForgetPassword extends React.Component {
     this.setState({ message: "", passtimer: true });
 
     //send received data from user to our server
-    const url = "https://application-wingman.herokuapp.com/api/forget-password";
+    const url = "https://application-wingman.onrender.com/api/forget-password";
 
     //body of api
     var data = {

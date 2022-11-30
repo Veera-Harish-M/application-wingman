@@ -88,7 +88,7 @@ class Home extends Component {
   };
 
   getAlgoWithUserInput = async (params) => {
-    const url = `https://application-wingman.herokuapp.com/api/getAlgoSearch/?search=${params}`;
+    const url = `https://application-wingman.onrender.com/api/getAlgoSearch/?search=${params}`;
 
     await fetch(url, {
       method: "GET",
@@ -168,7 +168,7 @@ class Home extends Component {
     //send to database
 
     var AuthDataId = localStorage.getItem("AuthDataId");
-    const url = `https://application-wingman.herokuapp.com/api/saveUserFiles`;
+    const url = `https://application-wingman.onrender.com/api/saveUserFiles`;
 
     var data = {
       fileName: name,
@@ -202,7 +202,7 @@ class Home extends Component {
 
   handleUpdate = async () => {
     var AuthDataId = localStorage.getItem("AuthDataId");
-    const url = `https://application-wingman.herokuapp.com/api/updateFile?fileId=${this.state.fileId}`;
+    const url = `https://application-wingman.onrender.com/api/updateFile?fileId=${this.state.fileId}`;
 
     var data = {
       fileName: this.state.fileName,

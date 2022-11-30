@@ -18,7 +18,7 @@ class activation extends Component {
   componentDidMount() {
     console.log(this.props.match.params.slug);
     const url =
-      "https://application-wingman.herokuapp.com/api/account-activation";
+      "https://application-wingman.onrender.com/api/account-activation";
     var bearer = "Bearer " + this.props.match.params.slug;
     fetch(url, {
       method: "POST",

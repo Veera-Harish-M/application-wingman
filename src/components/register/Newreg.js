@@ -36,7 +36,7 @@ export default function Newreg() {
     //if received positive response from facebook
     if (responseFacebook.accessToken) {
       //access data from facebook response and sending to our server
-      const url = "https://application-wingman.herokuapp.com/api/socialsignup";
+      const url = "https://application-wingman.onrender.com/api/socialsignup";
 
       //body of api
       var data = {
@@ -113,7 +113,7 @@ export default function Newreg() {
     //if received positive response from google Oauth api
     if (responseGoogle.googleId) {
       //access data from google response and sending to our server
-      const url = "https://application-wingman.herokuapp.com/api/socialsignup";
+      const url = "https://application-wingman.onrender.com/api/socialsignup";
 
       console.log(responseGoogle);
       //body of api
@@ -183,7 +183,7 @@ export default function Newreg() {
 
     if (Register.password === Register.repassword) {
       //send received data from user to our server
-      const url = "https://application-wingman.herokuapp.com/api/signup";
+      const url = "https://application-wingman.onrender.com/api/signup";
 
       //body of api
       var data = {

@@ -43,7 +43,7 @@ export default class ResetPassword extends Component {
     console.log("hello");
     if (this.state.password === this.state.Confirmpassword) {
       console.log(this.props.match.params.slug);
-      const url = "https://application-wingman.herokuapp.com/api/reset-password";
+      const url = "https://application-wingman.onrender.com/api/reset-password";
       var bearer = "Bearer " + this.props.match.params.slug;
 
       //body of api
